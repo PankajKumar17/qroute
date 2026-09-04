@@ -1,0 +1,27 @@
+[build-system]
+requires = ["setuptools>=61.0"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "qroute"
+version = "0.1.0"
+description = "A time-dependent, quantum-inspired Vehicle Routing Problem solver."
+readme = "README.md"
+requires-python = ">=3.11"
+dependencies = [
+    "networkx",
+    "osmnx",
+    "numpy",
+    "scipy",
+    "ortools",
+    "streamlit",
+    "folium",
+    "plotly",
+    "streamlit-folium"
+]
+
+[project.optional-dependencies]
+test = [
+    "pytest",
+    "pytest-cov"
+]

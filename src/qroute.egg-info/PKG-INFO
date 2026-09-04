@@ -1,0 +1,22 @@
+Metadata-Version: 2.4
+Name: qroute
+Version: 0.1.0
+Summary: A time-dependent, quantum-inspired Vehicle Routing Problem solver.
+Requires-Python: >=3.11
+Description-Content-Type: text/markdown
+Requires-Dist: networkx
+Requires-Dist: osmnx
+Requires-Dist: numpy
+Requires-Dist: scipy
+Requires-Dist: ortools
+Requires-Dist: streamlit
+Requires-Dist: folium
+Requires-Dist: plotly
+Requires-Dist: streamlit-folium
+Provides-Extra: test
+Requires-Dist: pytest; extra == "test"
+Requires-Dist: pytest-cov; extra == "test"
+
+# Q-Route
+
+A time-dependent, quantum-inspired Vehicle Routing Problem solver.

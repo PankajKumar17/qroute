@@ -1,0 +1,11 @@
+networkx
+osmnx
+numpy
+scipy
+ortools
+streamlit
+folium
+plotly
+streamlit-folium
+pytest
+pytest-cov
