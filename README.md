@@ -1,3 +1,59 @@
 # Q-Route
 
 A time-dependent, quantum-inspired Vehicle Routing Problem solver.
+
+## Architecture & Flow
+1. **Frontend (React + Leaflet)**: Provides a dynamic dashboard to set VRP parameters, visualize routes on real OSM street maps, and display convergence metrics.
+2. **Backend (FastAPI)**: Serves the optimization API and the static frontend assets.
+3. **Graph Layer**: Loads road networks using OSMnx, models time-dependent traffic and edge costs, and computes exact shortest paths between nodes.
+4. **Encoding & Split**: Uses random-key continuous vectors decoded into permutations, then split into feasible routes using a greedy approximation (Prins-style).
+5. **Algorithms**: Implements Nearest Neighbor, Standard PSO, Genetic Algorithm, OR-Tools exact solver, and an Adaptive PSO.
+6. **Quantum-Walk Seeding**: Simulates a classical random walk proxy for generating diverse initial particles.
+7. **Consensus & Robustness**: Clusters local sub-swarm bests and evaluates scenario shocks.
+
+## Setup Instructions
+```bash
+python -m venv .venv
+# On Windows: .venv\Scripts\activate
+# On Unix: source .venv/bin/activate
+pip install -r requirements.txt
+pip install -e .[test]
+```
+
+## Running Benchmarks
+To run the benchmarking suite and reproduce ablation results:
+```bash
+python src/qroute/benchmark/ablation_reseeding.py
+python src/qroute/benchmark/full_comparison.py
+```
+
+## Running the Web App (FastAPI + React)
+During development, you can run the backend and frontend separately:
+
+Start the backend API server (runs on port 8000):
+```bash
+uvicorn qroute.api.server:app --reload
+```
+
+In a separate terminal, start the React frontend:
+```bash
+cd frontend
+npm install
+npm run dev
+```
+
+## Docker Deployment (Production)
+The Docker image uses a multi-stage build to compile the React frontend and serve it alongside the FastAPI backend from a single container.
+```bash
+docker build -t qroute .
+docker run -p 8000:8000 qroute
+```
+Open `http://localhost:8000` in your browser.
+
+## Known Limitations
+- The "Quantum Walk" is implemented as a classical random walk proxy.
+- The split procedure uses a greedy approximation instead of a strict DAG shortest path.
+- Traffic patterns are synthetically generated diurnal curves rather than real-time API integrations.
+- Time-dependent shortest-path is evaluated at fixed edges; full dynamic re-routing is not supported.
+- `ortools` baseline uses a static cost matrix computed at departure time, ignoring dynamic changes mid-route.
+

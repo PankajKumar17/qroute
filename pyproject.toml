@@ -17,7 +17,12 @@ dependencies = [
     "streamlit",
     "folium",
     "plotly",
-    "streamlit-folium"
+    "streamlit-folium",
+    "matplotlib",
+    "pandas",
+    "fastapi",
+    "uvicorn",
+    "pydantic"
 ]
 
 [project.optional-dependencies]

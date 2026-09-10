@@ -1,0 +1,31 @@
+INFO:     Started server process [69196]
+INFO:     Waiting for application startup.
+INFO:     Application startup complete.
+INFO:     Uvicorn running on http://127.0.0.1:8000 (Press CTRL+C to quit)
+INFO:     127.0.0.1:62151 - "GET / HTTP/1.1" 200 OK
+INFO:     127.0.0.1:54586 - "GET /assets/index-BuM5bsiT.js HTTP/1.1" 200 OK
+INFO:     127.0.0.1:62028 - "GET /assets/index-B6Y5bdt9.css HTTP/1.1" 200 OK
+INFO:     127.0.0.1:51805 - "GET /favicon.svg HTTP/1.1" 200 OK
+INFO:     127.0.0.1:62813 - "POST /api/optimize HTTP/1.1" 200 OK
+INFO:     127.0.0.1:57951 - "POST /api/optimize HTTP/1.1" 200 OK
+INFO:     127.0.0.1:53651 - "POST /api/optimize HTTP/1.1" 200 OK
+INFO:     127.0.0.1:64189 - "POST /api/optimize HTTP/1.1" 200 OK
+INFO:     127.0.0.1:63308 - "POST /api/optimize HTTP/1.1" 200 OK
+INFO:     127.0.0.1:50099 - "POST /api/optimize HTTP/1.1" 200 OK
+INFO:     127.0.0.1:62752 - "GET / HTTP/1.1" 200 OK
+INFO:     127.0.0.1:51396 - "GET /assets/index-B6Y5bdt9.css HTTP/1.1" 200 OK
+INFO:     127.0.0.1:62752 - "GET /assets/index-r3RYUhOx.js HTTP/1.1" 200 OK
+INFO:     127.0.0.1:62752 - "POST /api/optimize HTTP/1.1" 200 OK
+INFO:     127.0.0.1:60473 - "GET / HTTP/1.1" 200 OK
+INFO:     127.0.0.1:60473 - "GET /assets/index-Bae4bfce.js HTTP/1.1" 200 OK
+INFO:     127.0.0.1:55758 - "GET /assets/index-B6Y5bdt9.css HTTP/1.1" 200 OK
+INFO:     127.0.0.1:60473 - "POST /api/optimize HTTP/1.1" 200 OK
+INFO:     127.0.0.1:51050 - "GET / HTTP/1.1" 304 Not Modified
+INFO:     127.0.0.1:60574 - "GET /assets/index-B6Y5bdt9.css HTTP/1.1" 304 Not Modified
+INFO:     127.0.0.1:51050 - "GET /assets/index-Bae4bfce.js HTTP/1.1" 304 Not Modified
+INFO:     127.0.0.1:52455 - "GET / HTTP/1.1" 200 OK
+INFO:     127.0.0.1:52455 - "GET /assets/index-CgspiB_n.js HTTP/1.1" 200 OK
+INFO:     127.0.0.1:59627 - "GET /assets/index-B6Y5bdt9.css HTTP/1.1" 200 OK
+INFO:     127.0.0.1:52455 - "GET / HTTP/1.1" 304 Not Modified
+INFO:     127.0.0.1:52455 - "GET / HTTP/1.1" 304 Not Modified
+INFO:     127.0.0.1:49666 - "POST /api/optimize HTTP/1.1" 200 OK

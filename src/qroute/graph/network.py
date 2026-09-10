@@ -44,18 +44,19 @@ def build_synthetic_graph(n_nodes: int, seed: int = None) -> nx.DiGraph:
     if seed is not None:
         np.random.seed(seed)
         
-    # Generate a random geometric graph
-    radius = 1.5 * np.sqrt(np.log(n_nodes) / n_nodes) if n_nodes > 0 else 0.5
-    G_undirected = nx.random_geometric_graph(n_nodes, radius, seed=seed)
+    # Generate a random geometric graph for positions
+    G_undirected = nx.random_geometric_graph(n_nodes, radius=100.0, seed=seed)
     
-    # Convert to directed graph for routing
-    G = nx.DiGraph(G_undirected)
+    # Convert to complete directed graph for VRP routing
+    G = nx.complete_graph(n_nodes, create_using=nx.DiGraph)
     
     # Add coordinates as node attributes (x, y) if they are in 'pos'
-    for node, data in G.nodes(data=True):
-        if 'pos' in data:
-            data['x'] = data['pos'][0]
-            data['y'] = data['pos'][1]
+    for node in G.nodes():
+        if node in G_undirected.nodes() and 'pos' in G_undirected.nodes[node]:
+            pos = G_undirected.nodes[node]['pos']
+            G.nodes[node]['pos'] = pos
+            G.nodes[node]['x'] = pos[0]
+            G.nodes[node]['y'] = pos[1]
     
     # Assign edge attributes
     for u, v, data in G.edges(data=True):
@@ -70,3 +71,69 @@ def build_synthetic_graph(n_nodes: int, seed: int = None) -> nx.DiGraph:
         data['travel_time'] = dist / speed
         
     return G
+
+def build_vrp_graph_from_road_network(G_road: nx.MultiDiGraph, n_customers: int, seed: int = None) -> nx.DiGraph:
+    """
+    Samples nodes from a real road network and computes all-pairs shortest paths 
+    to build a complete directed graph for VRP optimization.
+    
+    Args:
+        G_road: OSMnx road network graph.
+        n_customers: Number of customers (total nodes will be n_customers + 1 for depot).
+        seed: Random seed.
+        
+    Returns:
+        A NetworkX DiGraph (complete) with 'length', 'travel_time', and 'path_nodes' attributes.
+    """
+    if seed is not None:
+        np.random.seed(seed)
+        
+    # Sample nodes that belong to the largest strongly connected component
+    # to ensure paths exist between all sampled nodes.
+    scc = max(nx.strongly_connected_components(G_road), key=len)
+    scc_nodes = list(scc)
+    
+    # We need n_customers + 1 nodes (depot is index 0)
+    total_nodes = n_customers + 1
+    sampled_nodes = np.random.choice(scc_nodes, size=total_nodes, replace=False)
+    
+    # Build complete graph where node IDs are 0 to n_customers
+    G_vrp = nx.complete_graph(total_nodes, create_using=nx.DiGraph)
+    
+    # Add coordinate attributes from the original graph
+    for idx, node_id in enumerate(sampled_nodes):
+        G_vrp.nodes[idx]['osmnx_id'] = node_id
+        G_vrp.nodes[idx]['x'] = G_road.nodes[node_id]['x']
+        G_vrp.nodes[idx]['y'] = G_road.nodes[node_id]['y']
+        
+    # Compute all-pairs shortest paths on the road network (using travel_time)
+    # Since G_road is a MultiDiGraph, shortest_path uses the edge with the lowest weight automatically
+    for u in range(total_nodes):
+        u_osm = sampled_nodes[u]
+        
+        # single_source_dijkstra computes paths and lengths to all reachable nodes
+        lengths, paths = nx.single_source_dijkstra(G_road, u_osm, weight='travel_time')
+        
+        for v in range(total_nodes):
+            if u == v:
+                continue
+                
+            v_osm = sampled_nodes[v]
+            
+            # Extract distance and path
+            travel_time = lengths[v_osm]
+            path = paths[v_osm]
+            
+            # Compute physical length of this path
+            length = 0.0
+            for i in range(len(path) - 1):
+                # get edge data (MultiDiGraph, take min travel_time edge)
+                edge_data = G_road.get_edge_data(path[i], path[i+1])
+                min_edge = min(edge_data.values(), key=lambda x: x.get('travel_time', float('inf')))
+                length += min_edge.get('length', 0.0)
+                
+            G_vrp[u][v]['travel_time'] = travel_time
+            G_vrp[u][v]['length'] = length
+            G_vrp[u][v]['path_nodes'] = path
+            
+    return G_vrp

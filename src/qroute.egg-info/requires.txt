@@ -7,6 +7,11 @@ streamlit
 folium
 plotly
 streamlit-folium
+matplotlib
+pandas
+fastapi
+uvicorn
+pydantic
 
 [test]
 pytest

@@ -13,6 +13,11 @@ Requires-Dist: streamlit
 Requires-Dist: folium
 Requires-Dist: plotly
 Requires-Dist: streamlit-folium
+Requires-Dist: matplotlib
+Requires-Dist: pandas
+Requires-Dist: fastapi
+Requires-Dist: uvicorn
+Requires-Dist: pydantic
 Provides-Extra: test
 Requires-Dist: pytest; extra == "test"
 Requires-Dist: pytest-cov; extra == "test"
@@ -20,3 +25,57 @@ Requires-Dist: pytest-cov; extra == "test"
 # Q-Route
 
 A time-dependent, quantum-inspired Vehicle Routing Problem solver.
+
+## Architecture
+- **Graph Layer**: Loads road networks using OSMnx, models time-dependent traffic and edge costs.
+- **Encoding & Split**: Uses random-key continuous vectors decoded into permutations, then split into feasible routes using a greedy approximation (Prins-style).
+- **Algorithms**: Implements Nearest Neighbor, Standard PSO, Genetic Algorithm, OR-Tools exact solver, and an Adaptive PSO.
+- **Quantum-Walk Seeding**: Simulates a classical random walk proxy for generating diverse initial particles.
+- **Consensus & Robustness**: Clusters local sub-swarm bests and evaluates scenario shocks.
+
+## Setup Instructions
+```bash
+python -m venv .venv
+source .venv/bin/activate
+pip install -e .[test]
+```
+
+## Running Benchmarks
+To run the benchmarking suite and reproduce ablation results:
+```bash
+python src/qroute/benchmark/ablation_reseeding.py
+python src/qroute/benchmark/full_comparison.py
+```
+
+## Running the Web App (FastAPI + React)
+Start the backend API server:
+```bash
+uvicorn src.qroute.api.server:app --reload
+```
+
+In a separate terminal, start the React frontend:
+```bash
+cd frontend
+npm install
+npm run dev
+```
+
+## Running the Dashboard
+```bash
+streamlit run src/qroute/dashboard/app.py
+```
+
+## Docker Deployment
+```bash
+docker build -t qroute .
+docker run -p 8501:8501 qroute
+```
+Open `localhost:8501` in your browser.
+
+## Known Limitations
+- The "Quantum Walk" is implemented as a classical random walk proxy.
+- The split procedure uses a greedy approximation instead of a strict DAG shortest path.
+- Traffic patterns are synthetically generated diurnal curves rather than real-time API integrations.
+- Time-dependent shortest-path is evaluated at fixed edges; full dynamic re-routing is not supported.
+- `ortools` baseline uses a static cost matrix computed at departure time, ignoring dynamic changes mid-route.
+
