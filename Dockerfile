@@ -22,8 +22,9 @@ COPY requirements.txt .
 # Install dependencies
 RUN pip install --no-cache-dir -r requirements.txt
 
-# Copy backend source code
+# Copy backend source code and data
 COPY src/ src/
+COPY data/ data/
 COPY pyproject.toml .
 
 # Install the package in editable mode
