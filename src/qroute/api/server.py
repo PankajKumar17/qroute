@@ -7,7 +7,7 @@ import numpy as np
 
 from qroute.graph.network import build_synthetic_graph, load_road_network, build_vrp_graph_from_road_network
 from qroute.algorithms.adaptive_pso import adaptive_pso
-from qroute.consensus.redundant_consensus import check_consensus, run_subswarms
+from qroute.consensus.redundant_consensus import darwinism_consensus
 from qroute.robustness.scenario_testing import generate_traffic_scenarios, evaluate_route_robustness
 from qroute.algorithms.local_search import apply_two_opt
 
@@ -67,12 +67,8 @@ def run_optimization(req: OptimizeRequest):
         
         # Run Algorithm
         if req.k_subswarms > 1:
-            local_bests = run_subswarms(G, demands, req.vehicle_capacity, req.k_subswarms, req.iterations)
-            best_routes = check_consensus(local_bests, similarity_threshold=0.7)
-            if best_routes is None:
-                best_routes = local_bests[0]
-            # Run one more to get history
-            best_fitness, _, history, log = adaptive_pso(G, demands, req.vehicle_capacity, req.swarm_size, req.iterations)
+            best_fitness, best_routes, _, _ = darwinism_consensus(G, demands, req.vehicle_capacity, k_subswarms=req.k_subswarms, iterations_per_window=req.iterations)
+            history = [best_fitness]
         else:
             best_fitness, best_routes, history, log = adaptive_pso(G, demands, req.vehicle_capacity, req.swarm_size, req.iterations)
             
