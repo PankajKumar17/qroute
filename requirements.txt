@@ -51,8 +51,6 @@ pytest==9.1.1
 pytest-cov==7.1.0
 python-dateutil==2.9.0.post0
 python-multipart==0.0.32
-# Editable Git install with no remote (qroute==0.1.0)
--e c:\users\panka\onedrive\desktop\sih\qroute
 referencing==0.37.0
 requests==2.34.2
 rpds-py==2026.6.3
