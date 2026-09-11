@@ -1,10 +1,12 @@
 import networkx as nx
 import osmnx as ox
 import numpy as np
+import os
 
 def load_road_network(place_name: str, network_type: str = "drive") -> nx.MultiDiGraph:
     """
     Loads a road network for a given place using OSMnx, and adds travel times.
+    Caches the graph locally to avoid API rate limits and connection issues in production.
     
     Args:
         place_name: Location string (e.g., "Piedmont, California, USA").
@@ -13,8 +15,19 @@ def load_road_network(place_name: str, network_type: str = "drive") -> nx.MultiD
     Returns:
         A NetworkX MultiDiGraph with 'length' (meters) and 'travel_time' (seconds) on edges.
     """
-    # Fetch graph from OSMnx
-    G = ox.graph_from_place(place_name, network_type=network_type)
+    safe_name = place_name.replace(", ", "_").replace(" ", "_").lower()
+    data_dir = os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", "..", "..", "data")
+    os.makedirs(data_dir, exist_ok=True)
+    filepath = os.path.join(data_dir, f"{safe_name}.graphml")
+
+    if os.path.exists(filepath):
+        print(f"Loading cached road network from {filepath}")
+        G = ox.load_graphml(filepath)
+    else:
+        print(f"Downloading road network for {place_name}")
+        G = ox.graph_from_place(place_name, network_type=network_type)
+        ox.save_graphml(G, filepath)
+        print(f"Saved road network to {filepath}")
     
     # Impute missing edge speeds and calculate travel times
     G = ox.add_edge_speeds(G)
