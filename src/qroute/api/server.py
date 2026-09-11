@@ -8,7 +8,7 @@ import numpy as np
 from qroute.graph.network import build_synthetic_graph, load_road_network, build_vrp_graph_from_road_network
 from qroute.algorithms.adaptive_pso import adaptive_pso
 from qroute.consensus.redundant_consensus import darwinism_consensus
-from qroute.robustness.scenario_testing import generate_traffic_scenarios, evaluate_route_robustness
+from qroute.robustness.scenario_testing import generate_fixed_scenarios, evaluate_route_robustness
 from qroute.algorithms.local_search import apply_two_opt
 
 app = FastAPI(title="Q-Route API")
@@ -73,7 +73,7 @@ def run_optimization(req: OptimizeRequest):
             best_fitness, best_routes, history, log = adaptive_pso(G, demands, req.vehicle_capacity, req.swarm_size, req.iterations)
             
         # Robustness Scenarios
-        scenarios = generate_traffic_scenarios(G, 20)
+        scenarios = generate_fixed_scenarios(G)
         
         # Format Nodes for Map
         nodes = []
