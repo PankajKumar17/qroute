@@ -35,6 +35,7 @@ def load_road_network(place_name: str, network_type: str = "drive") -> nx.MultiD
             G = build_synthetic_graph(n_nodes=20)
             # Convert to MultiDiGraph for compatibility with OSMnx downstream functions
             G = nx.MultiDiGraph(G)
+            return G
     
     # Impute missing edge speeds and calculate travel times
     G = ox.add_edge_speeds(G)
