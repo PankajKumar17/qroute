@@ -27,8 +27,8 @@ COPY src/ src/
 COPY data/ data/
 COPY pyproject.toml .
 
-# Install the package in editable mode
-RUN pip install -e .
+# Install the package in standard mode for production
+RUN pip install .
 
 # Copy built frontend from stage 1
 COPY --from=frontend-builder /app/frontend/dist /app/frontend/dist

@@ -25,9 +25,16 @@ def load_road_network(place_name: str, network_type: str = "drive") -> nx.MultiD
         G = ox.load_graphml(filepath)
     else:
         print(f"Downloading road network for {place_name}")
-        G = ox.graph_from_place(place_name, network_type=network_type)
-        ox.save_graphml(G, filepath)
-        print(f"Saved road network to {filepath}")
+        try:
+            G = ox.graph_from_place(place_name, network_type=network_type)
+            ox.save_graphml(G, filepath)
+            print(f"Saved road network to {filepath}")
+        except Exception as e:
+            import logging
+            logging.warning(f"Failed to load OSMnx graph for {place_name}: {e}. Falling back to synthetic graph.")
+            G = build_synthetic_graph(n_nodes=20)
+            # Convert to MultiDiGraph for compatibility with OSMnx downstream functions
+            G = nx.MultiDiGraph(G)
     
     # Impute missing edge speeds and calculate travel times
     G = ox.add_edge_speeds(G)

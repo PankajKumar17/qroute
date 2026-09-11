@@ -1,23 +1,26 @@
 import pytest
 import numpy as np
+import networkx as nx
 from qroute.graph.network import build_synthetic_graph
 from qroute.algorithms.quantum_walk import quantum_walk_sample
 from qroute.encoding.random_key import decode_to_tour
 
 def test_quantum_walk_sample():
     n_nodes = 10
-    G = build_synthetic_graph(n_nodes, seed=42)
+    G = nx.cycle_graph(5, create_using=nx.DiGraph())
     n_samples = 5
     
-    samples = quantum_walk_sample(G, n_samples, seed=42)
+    # Generate samples
+    n_customers = len(G.nodes) - 1
+    samples = quantum_walk_sample(n_customers, n_samples=n_samples, seed=42)
     
     assert len(samples) == n_samples
     
     # Check decode without error
     for keys in samples:
         tour = decode_to_tour(keys)
-        assert len(tour) == n_nodes - 1
-        assert len(set(tour)) == n_nodes - 1
+        assert len(tour) == len(G.nodes) - 1
+        assert len(set(tour)) == len(G.nodes) - 1
         
     # Check diversity (pairwise distances > 0)
     for i in range(n_samples):

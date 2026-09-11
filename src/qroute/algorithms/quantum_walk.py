@@ -1,61 +1,65 @@
 import numpy as np
-import random
+from scipy.stats import qmc
 from typing import List
-from qroute.encoding.random_key import decode_to_tour
 
-def quantum_walk_sample(graph, n_samples: int, seed: int = None) -> List[np.ndarray]:
+def uniform_random_sample(n_customers: int, n_samples: int, seed: int = None) -> List[np.ndarray]:
+    if seed is not None:
+        np.random.seed(seed)
+    return [np.random.uniform(0, 1, size=n_customers) for _ in range(n_samples)]
+
+def lhs_sample(n_customers: int, n_samples: int, seed: int = None) -> List[np.ndarray]:
+    sampler = qmc.LatinHypercube(d=n_customers, seed=seed)
+    samples = sampler.random(n=n_samples)
+    return [samples[i, :] for i in range(n_samples)]
+
+def quantum_walk_sample(n_customers: int, n_samples: int, seed: int = None) -> List[np.ndarray]:
     """
-    Simulates a discrete-time quantum walk (classically) on the road network to sample
-    diverse candidate orderings.
-    
-    Conversion to random-key vector:
-    For each sample, we run a random walk (biased by edge weights, serving as a proxy 
-    for the quantum walk probability distribution) starting from the depot.
-    The order in which nodes are first visited dictates their position in the tour.
-    We then generate a random-key vector that sorts to this exact ordering.
+    Simulates a discrete-time quantum walk classically on a cycle graph of customers.
+    This is a classical simulation of quantum walk dynamics (Hadamard coin + conditional shift),
+    used only for diversity-oriented sampling, with no computational-advantage or hardware claim.
     """
     if seed is not None:
         np.random.seed(seed)
-        random.seed(seed)
         
-    n_nodes = graph.number_of_nodes()
-    n_customers = n_nodes - 1
     samples = []
+    T = min(15, n_customers) # Walk steps
     
-    for _ in range(n_samples):
-        visited = []
-        current = 0 # depot
-        unvisited = set(range(1, n_nodes))
+    Hadamard = np.array([[1, 1], [1, -1]]) / np.sqrt(2.0)
+    
+    for s in range(n_samples):
+        # State vector for cycle graph: shape (n_customers, 2)
+        # Coin states: 0 = Left, 1 = Right
+        psi = np.zeros((n_customers, 2), dtype=complex)
         
-        while unvisited:
-            # Get neighbors (assuming complete graph or well-connected)
-            neighbors = list(graph.successors(current))
-            valid_neighbors = [n for n in neighbors if n in unvisited]
+        # Pick a random starting node to ensure diversity across samples
+        start_node = np.random.randint(0, n_customers)
+        # Random complex amplitudes for the initial coin state
+        psi[start_node, 0] = np.cos(np.random.uniform(0, 2*np.pi)) + 1j * np.sin(np.random.uniform(0, 2*np.pi))
+        psi[start_node, 1] = np.cos(np.random.uniform(0, 2*np.pi)) + 1j * np.sin(np.random.uniform(0, 2*np.pi))
+        psi /= np.linalg.norm(psi)
+        
+        for t in range(T):
+            # Apply unitary Hadamard coin operator
+            psi = np.einsum('ij,xj->xi', Hadamard, psi)
             
-            if not valid_neighbors:
-                # Dead end, just pick a random unvisited
-                valid_neighbors = list(unvisited)
+            # Apply conditional shift operator
+            psi_next = np.zeros_like(psi)
+            for x in range(n_customers):
+                # Coin 0: Move Left (x-1)
+                psi_next[(x - 1) % n_customers, 0] = psi[x, 0]
+                # Coin 1: Move Right (x+1)
+                psi_next[(x + 1) % n_customers, 1] = psi[x, 1]
                 
-            # Bias transition by inverse distance (or just random for simple walk)
-            # A true quantum walk would use interference, here we use a simple heuristic
-            next_node = random.choice(valid_neighbors)
-            visited.append(next_node)
-            unvisited.remove(next_node)
-            current = next_node
+            psi = psi_next
             
-        # visited contains the customers (1 to n_customers) in order
-        # We need a random-key vector that produces this ordering.
-        # i.e., keys[customer - 1] should be ascending.
-        keys = np.zeros(n_customers)
-        # Assign evenly spaced keys, with some noise
-        base_keys = np.linspace(0.1, 0.9, n_customers)
-        base_keys += np.random.uniform(-0.01, 0.01, n_customers)
-        base_keys = np.clip(base_keys, 0, 1)
-        base_keys.sort()
+        # Compute probability distribution (born rule)
+        prob = np.abs(psi[:, 0])**2 + np.abs(psi[:, 1])**2
         
-        for i, customer_node in enumerate(visited):
-            keys[customer_node - 1] = base_keys[i]
-            
+        # Use probability amplitude mapped to random key space
+        prob_max = np.max(prob) if np.max(prob) > 0 else 1.0
+        keys = (prob / prob_max) * 0.9 + np.random.uniform(0, 0.1, size=n_customers)
+        keys = np.clip(keys, 0.0, 1.0)
+        
         samples.append(keys)
         
     return samples
