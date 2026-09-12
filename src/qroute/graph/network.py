@@ -75,8 +75,10 @@ def build_synthetic_graph(n_nodes: int, seed: int = None) -> nx.DiGraph:
         if node in G_undirected.nodes() and 'pos' in G_undirected.nodes[node]:
             pos = G_undirected.nodes[node]['pos']
             G.nodes[node]['pos'] = pos
-            G.nodes[node]['x'] = pos[0]
-            G.nodes[node]['y'] = pos[1]
+            # Offset to Piedmont, CA (Lat: 37.8243, Lng: -122.2316)
+            # Scale by 0.05 degrees (approx 5km) to spread them out realistically
+            G.nodes[node]['x'] = -122.2316 + (pos[0] - 0.5) * 0.05
+            G.nodes[node]['y'] = 37.8243 + (pos[1] - 0.5) * 0.05
     
     # Assign edge attributes
     for u, v, data in G.edges(data=True):

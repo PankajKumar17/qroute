@@ -68,8 +68,7 @@ def run_optimization(req: OptimizeRequest):
         
         # Run Algorithm
         if req.k_subswarms > 1:
-            best_fitness, best_routes, _, _ = darwinism_consensus(G, demands, req.vehicle_capacity, k_subswarms=req.k_subswarms, iterations_per_window=req.iterations)
-            history = [best_fitness]
+            best_fitness, best_routes, _, _, history = darwinism_consensus(G, demands, req.vehicle_capacity, k_subswarms=req.k_subswarms, iterations_per_window=req.iterations)
         else:
             best_fitness, best_routes, history, log = adaptive_pso(G, demands, req.vehicle_capacity, req.swarm_size, req.iterations)
             

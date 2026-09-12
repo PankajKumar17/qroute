@@ -21,20 +21,26 @@ def extract_edges(routes: List[List[int]]) -> set:
 
 def darwinism_consensus(graph, demands: List[float], vehicle_capacity: float, 
                         k_subswarms: int = 5, iterations_per_window: int = 20,
-                        discount_factor: float = 0.01) -> Tuple[float, List[List[int]], List[Tuple[int, int]], dict]:
+                        discount_factor: float = 0.01) -> Tuple[float, List[List[int]], List[Tuple[int, int]], dict, List[float]]:
     """
     Runs K independent swarms. Counts edge frequencies across their gbest routes.
     Promotes edges that appear in >= ceil(K/2) swarms.
     Runs a final consensus swarm where promoted edges are heavily discounted.
     """
     edge_counts = {}
+    best_history = []
+    min_cost = float('inf')
     
     # 1. Run K independent subswarms
     for i in range(k_subswarms):
-        _, best_routes, _, _ = adaptive_pso(
+        cost, best_routes, history, _ = adaptive_pso(
             graph, demands, vehicle_capacity,
             swarm_size=20, iterations=iterations_per_window
         )
+        if cost < min_cost:
+            min_cost = cost
+            best_history = history
+            
         edges = extract_edges(best_routes)
         for e in edges:
             edge_counts[e] = edge_counts.get(e, 0) + 1
@@ -68,4 +74,9 @@ def darwinism_consensus(graph, demands: List[float], vehicle_capacity: float,
         cost, _ = time_dependent_route_cost(graph, graph_route, depart_time=0.0)
         true_cost += cost
         
-    return true_cost, final_routes, promoted_edges, edge_counts
+    if best_history and true_cost < min_cost:
+        best_history.append(true_cost)
+    elif best_history:
+        best_history.append(best_history[-1])
+        
+    return true_cost, final_routes, promoted_edges, edge_counts, best_history
