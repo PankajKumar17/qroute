@@ -163,7 +163,7 @@ function App() {
                          <th>Vehicle</th>
                          <th className="text-right">Avg Cost</th>
                          <th className="text-right">Worst Case</th>
-                         <th className="text-right"><span title="Coefficient of Variation" style={{cursor: 'help'}}>CV</span></th>
+                         <th className="text-right"><span title="Lambda Robustness Score (L=0.5)" style={{cursor: 'help'}}>Lambda</span></th>
                        </tr>
                      </thead>
                      <tbody>
@@ -175,9 +175,9 @@ function App() {
                                Vehicle {route.vehicle_id}
                              </div>
                            </td>
-                           <td className="text-right"><strong style={{ color: '#2d3748' }}>{route.metrics.mean.toFixed(1)}</strong></td>
-                           <td className="text-right"><strong style={{ color: '#ef4444' }}>{route.metrics.worst.toFixed(1)}</strong></td>
-                           <td className="text-right"><strong style={{ color: '#4f46e5' }}>{route.metrics.cv.toFixed(3)}</strong></td>
+                           <td className="text-right"><strong style={{ color: '#2d3748' }}>{route.metrics?.avg?.toFixed(1) || '0.0'}</strong></td>
+                           <td className="text-right"><strong style={{ color: '#ef4444' }}>{route.metrics?.worst?.toFixed(1) || '0.0'}</strong></td>
+                           <td className="text-right"><strong style={{ color: '#4f46e5' }}>{route.metrics?.lambda_score?.toFixed(1) || '0.0'}</strong></td>
                          </tr>
                        ))}
                      </tbody>
