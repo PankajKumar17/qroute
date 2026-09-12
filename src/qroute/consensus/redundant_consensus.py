@@ -63,7 +63,7 @@ def darwinism_consensus(graph, demands: List[float], vehicle_capacity: float,
     # 4. Final consensus run
     _, final_routes, _, _ = adaptive_pso(
         consensus_graph, demands, vehicle_capacity,
-        swarm_size=30, iterations=iterations_per_window * 2
+        swarm_size=20, iterations=iterations_per_window
     )
     
     # 5. Re-evaluate true cost on the original unmodified graph

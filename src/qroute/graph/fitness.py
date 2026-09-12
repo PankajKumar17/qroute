@@ -29,13 +29,14 @@ def time_dependent_route_cost(graph, route: List[int], depart_time: float, profi
     
     current_time = depart_time
     total_cost = 0.0
+    is_multi = graph.is_multigraph()
     
     for i in range(len(route) - 1):
         u = route[i]
         v = route[i + 1]
         
         # Edge handling
-        if graph.is_multigraph():
+        if is_multi:
             edge_data_dict = graph.get_edge_data(u, v)
             min_edge_key = min(edge_data_dict.keys(), key=lambda k: edge_data_dict[k].get('travel_time', float('inf')))
             edge_data = edge_data_dict[min_edge_key]

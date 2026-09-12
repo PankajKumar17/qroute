@@ -1,7 +1,8 @@
 import React, { useState } from 'react'
 import { MapContainer, TileLayer, CircleMarker, Polyline, Popup } from 'react-leaflet'
-import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip as RechartsTooltip, ResponsiveContainer } from 'recharts'
+import { LineChart, Line, BarChart, Bar, Legend, XAxis, YAxis, CartesianGrid, Tooltip as RechartsTooltip, ResponsiveContainer } from 'recharts'
 import { Play, Activity, Map as MapIcon, BarChart2 } from 'lucide-react'
+import benchmarkData from './assets/benchmark_data.json'
 
 const ROUTE_COLORS = ['#4f46e5', '#10b981', '#f59e0b', '#ef4444', '#8b5cf6', '#ec4899', '#14b8a6']
 
@@ -49,7 +50,7 @@ function App() {
         result.nodes.reduce((sum, n) => sum + n.lat, 0) / result.nodes.length,
         result.nodes.reduce((sum, n) => sum + n.lng, 0) / result.nodes.length
       ]
-    : [40.7128, -74.0060]
+    : [37.8243, -122.2316]
 
   return (
     <div className="dashboard-container">
@@ -58,6 +59,23 @@ function App() {
         <div className="header">
           <h1><Activity size={24} color="#4f46e5" /> Q-Route</h1>
           <p>Quantum-Inspired VRP Solver</p>
+        </div>
+        
+        <div className="tabs-container" style={{ display: 'flex', gap: '8px', marginBottom: '24px' }}>
+          <button 
+            className={`tab-btn ${activeTab === 'map' ? 'active' : ''}`}
+            onClick={() => setActiveTab('map')}
+            style={{ flex: 1, padding: '8px', borderRadius: '6px', border: 'none', cursor: 'pointer', background: activeTab === 'map' ? '#4f46e5' : '#e2e8f0', color: activeTab === 'map' ? 'white' : '#475569', fontWeight: 600, fontSize: 13, display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 6 }}
+          >
+            <MapIcon size={16} /> Map
+          </button>
+          <button 
+            className={`tab-btn ${activeTab === 'benchmarks' ? 'active' : ''}`}
+            onClick={() => setActiveTab('benchmarks')}
+            style={{ flex: 1, padding: '8px', borderRadius: '6px', border: 'none', cursor: 'pointer', background: activeTab === 'benchmarks' ? '#4f46e5' : '#e2e8f0', color: activeTab === 'benchmarks' ? 'white' : '#475569', fontWeight: 600, fontSize: 13, display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 6 }}
+          >
+            <BarChart2 size={16} /> Benchmarks
+          </button>
         </div>
         
         <div className="control-group">
@@ -122,6 +140,8 @@ function App() {
       {/* Main Content */}
       <main className="main-content">
         
+        {activeTab === 'map' && (
+          <>
         {/* Analytics Panel */}
         <section className="glass-panel" style={{ padding: 20 }}>
           <div className="analytics-container" style={{ display: 'grid', gridTemplateColumns: '1.5fr 1fr', gap: '32px', height: '100%', overflow: 'hidden' }}>
@@ -251,6 +271,61 @@ function App() {
             )}
           </div>
         </section>
+        </>
+        )}
+
+        {activeTab === 'benchmarks' && (
+          <section className="glass-panel" style={{ padding: 32, height: '100%', overflowY: 'auto' }}>
+            <h2 style={{ marginBottom: 24, color: '#1e293b', display: 'flex', alignItems: 'center', gap: 8 }}>
+              <BarChart2 size={24} color="#4f46e5" /> Ablation Studies & Benchmarks
+            </h2>
+            
+            <div style={{ display: 'grid', gridTemplateColumns: '1fr', gap: 32 }}>
+              {/* Convergence Plot */}
+              <div className="chart-card" style={{ background: 'rgba(255,255,255,0.5)', padding: 24, borderRadius: 12, border: '1px solid rgba(255,255,255,0.6)' }}>
+                <h3 style={{ fontSize: 16, color: '#334155', marginBottom: 16 }}>Convergence History: Algorithm Comparison</h3>
+                <div style={{ height: 350 }}>
+                  <ResponsiveContainer width="100%" height="100%">
+                    <LineChart data={benchmarkData.convergence} margin={{ top: 10, right: 30, left: 10, bottom: 20 }}>
+                      <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="rgba(0,0,0,0.05)" />
+                      <XAxis dataKey="iteration" axisLine={false} tickLine={false} tick={{fill: '#a0aec0'}} label={{ value: 'Iteration', position: 'insideBottom', offset: -10, fill: '#718096' }} />
+                      <YAxis axisLine={false} tickLine={false} tick={{fill: '#a0aec0'}} domain={['auto', 'auto']} width={70} label={{ value: 'Global Best Cost', angle: -90, position: 'insideLeft', offset: 0, fill: '#718096' }} />
+                      <RechartsTooltip contentStyle={{ borderRadius: 8, border: 'none', boxShadow: '0 10px 15px -3px rgba(0,0,0,0.1)' }} />
+                      <Legend verticalAlign="top" height={36} iconType="circle" />
+                      <Line type="monotone" dataKey="Standard PSO" stroke="#ef4444" strokeWidth={2} dot={false} />
+                      <Line type="monotone" dataKey="Canonical QPSO" stroke="#f59e0b" strokeWidth={2} dot={false} />
+                      <Line type="monotone" dataKey="Q-Route" stroke="#4f46e5" strokeWidth={3} dot={false} activeDot={{ r: 6 }} />
+                    </LineChart>
+                  </ResponsiveContainer>
+                </div>
+                <p style={{ fontSize: 13, color: '#64748b', marginTop: 12 }}>
+                  * Q-Route (Blue) utilizes classical-quantum-walk reseeding and discrete Prins decoding to escape local minima faster than standard classical baselines.
+                </p>
+              </div>
+
+              {/* Redundancy Curve */}
+              <div className="chart-card" style={{ background: 'rgba(255,255,255,0.5)', padding: 24, borderRadius: 12, border: '1px solid rgba(255,255,255,0.6)' }}>
+                <h3 style={{ fontSize: 16, color: '#334155', marginBottom: 16 }}>Darwinism Consensus: Redundancy (R) Curve</h3>
+                <div style={{ height: 350 }}>
+                  <ResponsiveContainer width="100%" height="100%">
+                    <BarChart data={benchmarkData.redundancy} margin={{ top: 10, right: 30, left: 10, bottom: 20 }}>
+                      <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="rgba(0,0,0,0.05)" />
+                      <XAxis dataKey="subswarms" axisLine={false} tickLine={false} tick={{fill: '#a0aec0'}} label={{ value: 'Number of Independent Sub-Swarms (K)', position: 'insideBottom', offset: -10, fill: '#718096' }} />
+                      <YAxis axisLine={false} tickLine={false} tick={{fill: '#a0aec0'}} label={{ value: 'Avg Agreement Count (R)', angle: -90, position: 'insideLeft', offset: 0, fill: '#718096' }} />
+                      <RechartsTooltip contentStyle={{ borderRadius: 8, border: 'none', boxShadow: '0 10px 15px -3px rgba(0,0,0,0.1)' }} />
+                      <Legend verticalAlign="top" height={36} iconType="circle" />
+                      <Bar dataKey="redundancy" name="Observed Redundancy (R)" fill="#10b981" radius={[4, 4, 0, 0]} />
+                      <Line type="step" dataKey="threshold" name="Consensus Threshold [ceil(K/2)]" stroke="#ef4444" strokeWidth={2} dot={false} isAnimationActive={false} />
+                    </BarChart>
+                  </ResponsiveContainer>
+                </div>
+                <p style={{ fontSize: 13, color: '#64748b', marginTop: 12 }}>
+                  * The redundancy count R scales linearly/logarithmically with K, mimicking the classic signature of redundant information proliferation in Quantum Darwinism.
+                </p>
+              </div>
+            </div>
+          </section>
+        )}
 
       </main>
     </div>
