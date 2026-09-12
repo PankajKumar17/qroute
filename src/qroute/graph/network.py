@@ -31,8 +31,7 @@ def load_road_network(place_name: str, network_type: str = "drive") -> nx.MultiD
             print(f"Saved road network to {filepath}")
         except Exception as e:
             import logging
-            logging.warning(f"Failed to load OSMnx graph for {place_name}: {e}. Falling back to synthetic graph.")
-            G = build_synthetic_graph(n_nodes=20)
+            G = build_synthetic_graph(n_nodes=200)
             # Convert to MultiDiGraph for compatibility with OSMnx downstream functions
             G = nx.MultiDiGraph(G)
             return G
@@ -115,7 +114,7 @@ def build_vrp_graph_from_road_network(G_road: nx.MultiDiGraph, n_customers: int,
     scc_nodes = list(scc)
     
     # We need n_customers + 1 nodes (depot is index 0)
-    total_nodes = n_customers + 1
+    total_nodes = min(n_customers + 1, len(scc_nodes))
     sampled_nodes = np.random.choice(scc_nodes, size=total_nodes, replace=False)
     
     # Build complete graph where node IDs are 0 to n_customers

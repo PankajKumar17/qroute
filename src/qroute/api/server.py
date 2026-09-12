@@ -63,7 +63,8 @@ def run_optimization(req: OptimizeRequest):
             G_road = get_road_network()
             G = build_vrp_graph_from_road_network(G_road, req.n_customers, seed=42)
             
-        demands = list(np.random.randint(5, 20, size=req.n_customers))
+        actual_customers = len(G.nodes) - 1
+        demands = list(np.random.randint(5, 20, size=actual_customers))
         
         # Run Algorithm
         if req.k_subswarms > 1:
