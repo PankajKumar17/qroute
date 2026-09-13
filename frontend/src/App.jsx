@@ -138,7 +138,7 @@ function App() {
       </aside>
 
       {/* Main Content */}
-      <main className="main-content">
+      <main className="main-content" style={activeTab === 'benchmarks' ? { display: 'block', height: '100%' } : {}}>
         
         {activeTab === 'map' && (
           <>
