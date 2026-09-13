@@ -16,9 +16,28 @@ def load_road_network(place_name: str, network_type: str = "drive") -> nx.MultiD
         A NetworkX MultiDiGraph with 'length' (meters) and 'travel_time' (seconds) on edges.
     """
     safe_name = place_name.replace(", ", "_").replace(" ", "_").lower()
-    data_dir = os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", "..", "..", "data")
-    os.makedirs(data_dir, exist_ok=True)
-    filepath = os.path.join(data_dir, f"{safe_name}.graphml")
+    filename = f"{safe_name}.graphml"
+    
+    # Try multiple possible data directories
+    possible_data_dirs = [
+        os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", "..", "..", "data"), # Relative to this file
+        os.path.join(os.getcwd(), "data"), # Relative to execution dir
+        "/opt/render/project/src/data", # Render default
+        "data" # Just local folder
+    ]
+    
+    filepath = None
+    for d in possible_data_dirs:
+        test_path = os.path.join(d, filename)
+        if os.path.exists(test_path):
+            filepath = test_path
+            break
+            
+    if filepath is None:
+        # Fallback to the first one for saving if it doesn't exist
+        data_dir = possible_data_dirs[0]
+        os.makedirs(data_dir, exist_ok=True)
+        filepath = os.path.join(data_dir, filename)
 
     if os.path.exists(filepath):
         print(f"Loading cached road network from {filepath}")
