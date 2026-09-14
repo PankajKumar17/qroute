@@ -144,7 +144,7 @@ function App() {
           <>
         {/* Analytics Panel */}
         <section className="glass-panel" style={{ padding: 20 }}>
-          <div className="analytics-container" style={{ display: 'grid', gridTemplateColumns: '1.5fr 1fr', gap: '32px', height: '100%', overflow: 'hidden' }}>
+          <div className="analytics-container analytics-grid">
             
             {/* Convergence Chart */}
             <div className="chart-section" style={{ height: '100%', display: 'flex', flexDirection: 'column' }}>
