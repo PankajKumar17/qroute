@@ -8,7 +8,7 @@ def adaptive_pso(graph, demands: List[float], vehicle_capacity: float,
                  swarm_size: int = 30, iterations: int = 50, depart_time: float = 0.0,
                  w_stagnation: int = 5, epsilon: float = 1e-4, d_min: float = 0.2,
                  reseed_fraction: float = 0.3, top_k_preserve: int = 2,
-                 traffic_shocks: dict = None, theta_T: float = 0.5, use_qw: bool = True) -> Tuple[float, List[List[int]], List[float], List[dict]]:
+                 traffic_shocks: dict = None, theta_T: float = 0.5, use_qw: bool = True) -> Tuple[float, List[List[int]], List[float], List[dict], List[float]]:
     """
     Adaptive PSO with internal (stagnation) and external (traffic shock) triggers for QW reseeding.
     """
@@ -25,6 +25,7 @@ def adaptive_pso(graph, demands: List[float], vehicle_capacity: float,
     
     history = []
     reseed_log = []
+    div_history = []
     
     for iteration in range(iterations):
         for particle in swarm:
@@ -94,4 +95,6 @@ def adaptive_pso(graph, demands: List[float], vehicle_capacity: float,
             particle.position = particle.position + particle.velocity
             particle.position = np.clip(particle.position, 0.0, 1.0)
             
-    return gbest_fitness, gbest_routes, history, reseed_log
+        div_history.append(swarm_diversity([p.position for p in swarm]))
+            
+    return gbest_fitness, gbest_routes, history, reseed_log, div_history

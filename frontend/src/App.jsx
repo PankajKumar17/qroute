@@ -3,6 +3,7 @@ import { MapContainer, TileLayer, CircleMarker, Polyline, Popup } from 'react-le
 import { LineChart, Line, BarChart, Bar, Legend, XAxis, YAxis, CartesianGrid, Tooltip as RechartsTooltip, ResponsiveContainer } from 'recharts'
 import { Play, Activity, Map as MapIcon, BarChart2 } from 'lucide-react'
 import benchmarkData from './assets/benchmark_data.json'
+import metricsData from './assets/metrics_data.json'
 
 const ROUTE_COLORS = ['#4f46e5', '#10b981', '#f59e0b', '#ef4444', '#8b5cf6', '#ec4899', '#14b8a6']
 
@@ -294,12 +295,35 @@ function App() {
                       <Legend verticalAlign="top" height={36} iconType="circle" />
                       <Line type="monotone" dataKey="Standard PSO" stroke="#ef4444" strokeWidth={2} dot={false} />
                       <Line type="monotone" dataKey="Canonical QPSO" stroke="#f59e0b" strokeWidth={2} dot={false} />
+                      <Line type="monotone" dataKey="GAQPSO" stroke="#10b981" strokeWidth={2} dot={false} />
                       <Line type="monotone" dataKey="Q-Route" stroke="#4f46e5" strokeWidth={3} dot={false} activeDot={{ r: 6 }} />
                     </LineChart>
                   </ResponsiveContainer>
                 </div>
                 <p style={{ fontSize: 13, color: '#64748b', marginTop: 12 }}>
                   * Q-Route (Blue) utilizes classical-quantum-walk reseeding and discrete Prins decoding to escape local minima faster than standard classical baselines.
+                </p>
+              </div>
+
+              {/* Diversity Plot */}
+              <div className="chart-card" style={{ background: 'rgba(255,255,255,0.5)', padding: 24, borderRadius: 12, border: '1px solid rgba(255,255,255,0.6)' }}>
+                <h3 style={{ fontSize: 16, color: '#334155', marginBottom: 16 }}>Population Diversity History</h3>
+                <div style={{ height: 350 }}>
+                  <ResponsiveContainer width="100%" height="100%">
+                    <LineChart data={benchmarkData.diversity} margin={{ top: 10, right: 30, left: 10, bottom: 20 }}>
+                      <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="rgba(0,0,0,0.05)" />
+                      <XAxis dataKey="iteration" axisLine={false} tickLine={false} tick={{fill: '#a0aec0'}} label={{ value: 'Iteration', position: 'insideBottom', offset: -10, fill: '#718096' }} />
+                      <YAxis scale="log" domain={['auto', 'auto']} axisLine={false} tickLine={false} tick={{fill: '#a0aec0'}} width={70} label={{ value: 'Diversity (Log Scale)', angle: -90, position: 'insideLeft', offset: 0, fill: '#718096' }} />
+                      <RechartsTooltip contentStyle={{ borderRadius: 8, border: 'none', boxShadow: '0 10px 15px -3px rgba(0,0,0,0.1)' }} />
+                      <Line type="monotone" dataKey="Standard PSO" stroke="#ef4444" strokeWidth={2} dot={false} />
+                      <Line type="monotone" dataKey="Canonical QPSO" stroke="#f59e0b" strokeWidth={2} dot={false} />
+                      <Line type="monotone" dataKey="GAQPSO" stroke="#10b981" strokeWidth={2} dot={false} />
+                      <Line type="monotone" dataKey="Q-Route" stroke="#4f46e5" strokeWidth={3} dot={false} activeDot={{ r: 6 }} />
+                    </LineChart>
+                  </ResponsiveContainer>
+                </div>
+                <p style={{ fontSize: 13, color: '#64748b', marginTop: 12 }}>
+                  * GAQPSO maintains higher diversity during early and mid search phases compared to standard QPSO due to its Gaussian distributed local attractor.
                 </p>
               </div>
 
@@ -322,6 +346,41 @@ function App() {
                 <p style={{ fontSize: 13, color: '#64748b', marginTop: 12 }}>
                   * The redundancy count R scales linearly/logarithmically with K, mimicking the classic signature of redundant information proliferation in Quantum Darwinism.
                 </p>
+              </div>
+
+              {/* Comprehensive Metrics Table */}
+              <div className="chart-card" style={{ background: 'rgba(255,255,255,0.5)', padding: 24, borderRadius: 12, border: '1px solid rgba(255,255,255,0.6)' }}>
+                <h3 style={{ fontSize: 16, color: '#334155', marginBottom: 16 }}>Detailed Algorithm Metrics (Full Comparison)</h3>
+                <div style={{ overflowX: 'auto' }}>
+                  <table className="data-table" style={{ width: '100%', fontSize: 13, textAlign: 'right' }}>
+                    <thead>
+                      <tr>
+                        <th style={{textAlign: 'left'}}>Size</th>
+                        <th style={{textAlign: 'left'}}>Seed</th>
+                        <th>OR-Tools</th>
+                        <th>Standard PSO</th>
+                        <th>GA</th>
+                        <th>Canonical QPSO</th>
+                        <th>GAQPSO</th>
+                        <th>Adaptive Consensus</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {metricsData.map((row, i) => (
+                        <tr key={i}>
+                          <td style={{textAlign: 'left'}}><strong>{row.size}</strong></td>
+                          <td style={{textAlign: 'left'}}>{row.seed}</td>
+                          <td style={{color: '#ef4444', fontWeight: 600}}>{row.ortools?.toFixed(1)}</td>
+                          <td>{row.pso?.toFixed(1)}</td>
+                          <td>{row.ga?.toFixed(1)}</td>
+                          <td>{row.qpso?.toFixed(1)}</td>
+                          <td style={{color: '#10b981', fontWeight: 600}}>{row.gaqpso?.toFixed(1)}</td>
+                          <td>{row.adaptive_consensus?.toFixed(1)}</td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
+                </div>
               </div>
             </div>
           </section>

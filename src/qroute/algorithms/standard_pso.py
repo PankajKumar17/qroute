@@ -3,6 +3,7 @@ from typing import List, Tuple
 from qroute.encoding.random_key import encode_particle, decode_to_tour
 from qroute.encoding.split import split_giant_tour
 from qroute.graph.fitness import time_dependent_route_cost
+from qroute.algorithms.diversity import swarm_diversity
 
 class Particle:
     def __init__(self, n_customers: int, seed: int = None):
@@ -33,12 +34,12 @@ def evaluate_particle(particle: Particle, graph, demands: List[float], vehicle_c
     return total_cost
 
 def standard_pso(graph, demands: List[float], vehicle_capacity: float, 
-                 swarm_size: int = 30, iterations: int = 50, depart_time: float = 0.0) -> Tuple[float, List[List[int]], List[float]]:
+                 swarm_size: int = 30, iterations: int = 50, depart_time: float = 0.0) -> Tuple[float, List[List[int]], List[float], List[float]]:
     """
     Standard PSO using random-key encoding.
     
     Returns:
-        Tuple of (best_fitness, best_routes, history_of_gbest)
+        Tuple of (best_fitness, best_routes, history_of_gbest, diversity_history)
     """
     n_customers = len(demands)
     swarm = [Particle(n_customers) for _ in range(swarm_size)]
@@ -52,6 +53,7 @@ def standard_pso(graph, demands: List[float], vehicle_capacity: float,
     c2 = 1.5 # social
     
     history = []
+    div_history = []
     
     for _ in range(iterations):
         for particle in swarm:
@@ -76,5 +78,6 @@ def standard_pso(graph, demands: List[float], vehicle_capacity: float,
             particle.position = np.clip(particle.position, 0.0, 1.0)
             
         history.append(gbest_fitness)
+        div_history.append(swarm_diversity([p.position for p in swarm]))
         
-    return gbest_fitness, gbest_routes, history
+    return gbest_fitness, gbest_routes, history, div_history
