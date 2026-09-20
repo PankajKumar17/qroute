@@ -21,7 +21,7 @@ def extract_edges(routes: List[List[int]]) -> set:
 
 def darwinism_consensus(graph, demands: List[float], vehicle_capacity: float, 
                         k_subswarms: int = 5, iterations_per_window: int = 20,
-                        discount_factor: float = 0.01) -> Tuple[float, List[List[int]], List[Tuple[int, int]], dict, List[float]]:
+                        discount_factor: float = 0.01, return_diversity: bool = False):
     """
     Runs K independent swarms. Counts edge frequencies across their gbest routes.
     Promotes edges that appear in >= ceil(K/2) swarms.
@@ -29,17 +29,19 @@ def darwinism_consensus(graph, demands: List[float], vehicle_capacity: float,
     """
     edge_counts = {}
     best_history = []
+    best_diversity_history = []
     min_cost = float('inf')
     
     # 1. Run K independent subswarms
     for i in range(k_subswarms):
-        cost, best_routes, history, _ = adaptive_pso(
+        cost, best_routes, history, _, diversity_history = adaptive_pso(
             graph, demands, vehicle_capacity,
-            swarm_size=20, iterations=iterations_per_window
+            swarm_size=20, iterations=iterations_per_window, return_diversity=True
         )
         if cost < min_cost:
             min_cost = cost
             best_history = history
+            best_diversity_history = diversity_history
             
         edges = extract_edges(best_routes)
         for e in edges:
@@ -61,9 +63,9 @@ def darwinism_consensus(graph, demands: List[float], vehicle_capacity: float,
             consensus_graph[u][v]['length'] *= discount_factor
             
     # 4. Final consensus run
-    _, final_routes, _, _ = adaptive_pso(
+    _, final_routes, _, _, _ = adaptive_pso(
         consensus_graph, demands, vehicle_capacity,
-        swarm_size=20, iterations=iterations_per_window
+        swarm_size=20, iterations=iterations_per_window, return_diversity=True
     )
     
     # 5. Re-evaluate true cost on the original unmodified graph
@@ -79,4 +81,7 @@ def darwinism_consensus(graph, demands: List[float], vehicle_capacity: float,
     elif best_history:
         best_history.append(best_history[-1])
         
+    if return_diversity:
+        return true_cost, final_routes, promoted_edges, edge_counts, best_history, best_diversity_history
+
     return true_cost, final_routes, promoted_edges, edge_counts, best_history

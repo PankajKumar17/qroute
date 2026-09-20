@@ -41,6 +41,7 @@ class OptimizeResponse(BaseModel):
     status: str
     best_fitness: float
     history: List[float]
+    diversity_history: List[float]
     routes: List[RouteResponse]
     nodes: List[Dict[str, Any]]
 
@@ -68,9 +69,15 @@ def run_optimization(req: OptimizeRequest):
         
         # Run Algorithm
         if req.k_subswarms > 1:
-            best_fitness, best_routes, _, _, history = darwinism_consensus(G, demands, req.vehicle_capacity, k_subswarms=req.k_subswarms, iterations_per_window=req.iterations)
+            best_fitness, best_routes, _, _, history, diversity_history = darwinism_consensus(
+                G, demands, req.vehicle_capacity, k_subswarms=req.k_subswarms,
+                iterations_per_window=req.iterations, return_diversity=True
+            )
         else:
-            best_fitness, best_routes, history, log = adaptive_pso(G, demands, req.vehicle_capacity, req.swarm_size, req.iterations)
+            best_fitness, best_routes, history, log, diversity_history = adaptive_pso(
+                G, demands, req.vehicle_capacity, req.swarm_size, req.iterations,
+                return_diversity=True
+            )
             
         # Robustness Scenarios
         scenarios = generate_fixed_scenarios(G)
@@ -140,6 +147,7 @@ def run_optimization(req: OptimizeRequest):
             status="success",
             best_fitness=best_fitness,
             history=history,
+            diversity_history=diversity_history,
             routes=route_responses,
             nodes=nodes
         )
