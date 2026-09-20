@@ -43,6 +43,8 @@ class OptimizeResponse(BaseModel):
     history: List[float]
     routes: List[RouteResponse]
     nodes: List[Dict[str, Any]]
+    total_travel_time: Optional[float] = None
+    final_diversity: Optional[float] = None
 
 # Global cache for road network
 G_road_cache = None
@@ -67,10 +69,13 @@ def run_optimization(req: OptimizeRequest):
         demands = list(np.random.randint(5, 20, size=actual_customers))
         
         # Run Algorithm
+        final_diversity = 0.0
         if req.k_subswarms > 1:
             best_fitness, best_routes, _, _, history = darwinism_consensus(G, demands, req.vehicle_capacity, k_subswarms=req.k_subswarms, iterations_per_window=req.iterations)
         else:
-            best_fitness, best_routes, history, log = adaptive_pso(G, demands, req.vehicle_capacity, req.swarm_size, req.iterations)
+            best_fitness, best_routes, history, log, div_hist = adaptive_pso(G, demands, req.vehicle_capacity, req.swarm_size, req.iterations)
+            if div_hist:
+                final_diversity = div_hist[-1]
             
         # Robustness Scenarios
         scenarios = generate_fixed_scenarios(G)
@@ -100,7 +105,12 @@ def run_optimization(req: OptimizeRequest):
             # Apply 2-opt local search to untangle crossed lines
             graph_route = apply_two_opt(graph_route, G, 0.0)
             
+            from qroute.graph.fitness import time_dependent_route_cost
+            r_cost, r_time = time_dependent_route_cost(G, graph_route, 0.0)
+            
             metrics = evaluate_route_robustness(G, graph_route, 0.0, scenarios)
+            metrics['travel_time'] = r_time
+            metrics['route_cost'] = r_cost
             
             # Calculate path coordinates for detailed drawing on streets
             path_coords = []
@@ -136,12 +146,16 @@ def run_optimization(req: OptimizeRequest):
                 metrics=metrics
             ))
             
+        total_time = sum(r.metrics['travel_time'] for r in route_responses)
+        
         return OptimizeResponse(
             status="success",
             best_fitness=best_fitness,
             history=history,
             routes=route_responses,
-            nodes=nodes
+            nodes=nodes,
+            total_travel_time=total_time,
+            final_diversity=final_diversity
         )
         
     except Exception as e:

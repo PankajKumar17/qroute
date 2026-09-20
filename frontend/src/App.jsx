@@ -145,6 +145,41 @@ function App() {
           <>
         {/* Analytics Panel */}
         <section className="glass-panel" style={{ padding: 20 }}>
+          
+          {/* Summary Metrics requested by user */}
+          <div style={{ marginBottom: 20, paddingBottom: 16, borderBottom: '1px solid rgba(0,0,0,0.1)', display: 'grid', gridTemplateColumns: 'repeat(5, 1fr)', gap: 16 }}>
+            <div>
+              <h4 style={{ fontSize: 11, color: '#718096', textTransform: 'uppercase', marginBottom: 4 }}>Route Cost</h4>
+              <div style={{ fontSize: 18, fontWeight: 700, color: '#1e293b' }}>
+                {result ? result.best_fitness.toFixed(1) : '-'}
+              </div>
+            </div>
+            <div>
+              <h4 style={{ fontSize: 11, color: '#718096', textTransform: 'uppercase', marginBottom: 4 }}>Travel Time</h4>
+              <div style={{ fontSize: 18, fontWeight: 700, color: '#1e293b' }}>
+                {result && result.total_travel_time ? result.total_travel_time.toFixed(1) + 's' : '-'}
+              </div>
+            </div>
+            <div>
+              <h4 style={{ fontSize: 11, color: '#718096', textTransform: 'uppercase', marginBottom: 4 }}>Convergence</h4>
+              <div style={{ fontSize: 18, fontWeight: 700, color: '#1e293b' }}>
+                {result ? `${result.history.length} iters` : '-'}
+              </div>
+            </div>
+            <div>
+              <h4 style={{ fontSize: 11, color: '#718096', textTransform: 'uppercase', marginBottom: 4 }}>Swarm Density</h4>
+              <div style={{ fontSize: 18, fontWeight: 700, color: '#1e293b' }}>
+                {result && result.final_diversity ? result.final_diversity.toExponential(2) : '-'}
+              </div>
+            </div>
+            <div>
+              <h4 style={{ fontSize: 11, color: '#718096', textTransform: 'uppercase', marginBottom: 4 }}>Robustness (Avg λ)</h4>
+              <div style={{ fontSize: 18, fontWeight: 700, color: '#1e293b' }}>
+                {result && result.routes ? (result.routes.reduce((acc, r) => acc + (r.metrics?.lambda_score || 0), 0) / result.routes.length).toFixed(1) : '-'}
+              </div>
+            </div>
+          </div>
+
           <div className="analytics-container analytics-grid">
             
             {/* Convergence Chart */}
@@ -303,6 +338,68 @@ function App() {
                 <p style={{ fontSize: 13, color: '#64748b', marginTop: 12 }}>
                   * Q-Route (Blue) utilizes classical-quantum-walk reseeding and discrete Prins decoding to escape local minima faster than standard classical baselines.
                 </p>
+              </div>
+
+              {/* Performance Comparison Table (Before Diversity) */}
+              <div className="chart-card" style={{ background: '#fff', padding: 24, borderRadius: 12, border: '1px solid rgba(0,0,0,0.1)' }}>
+                <h3 style={{ fontSize: 16, color: '#334155', marginBottom: 16 }}>Algorithm Performance Summary (N=50)</h3>
+                <div style={{ overflowX: 'auto' }}>
+                  <table className="data-table" style={{ width: '100%', fontSize: 14, textAlign: 'center', borderCollapse: 'collapse' }}>
+                    <thead>
+                      <tr style={{ background: '#2c221e', color: '#fff' }}>
+                        <th style={{textAlign: 'left', padding: '12px 16px', border: '1px solid #e2e8f0'}}>Metric</th>
+                        <th style={{padding: '12px 16px', border: '1px solid #e2e8f0'}}>Standard PSO</th>
+                        <th style={{padding: '12px 16px', border: '1px solid #e2e8f0'}}>Canonical QPSO</th>
+                        <th style={{padding: '12px 16px', border: '1px solid #e2e8f0'}}>Q-Route</th>
+                        <th style={{padding: '12px 16px', border: '1px solid #e2e8f0'}}>GAQPSO (proposed)</th>
+                      </tr>
+                    </thead>
+                    <tbody style={{ background: '#faf6f0' }}>
+                      <tr>
+                        <td style={{textAlign: 'left', padding: '12px 16px', border: '1px solid #e2e8f0', fontWeight: 600}}>Final cost (mean)</td>
+                        <td style={{border: '1px solid #e2e8f0'}}>{tableData.pso.cost.toFixed(1)}</td>
+                        <td style={{border: '1px solid #e2e8f0'}}>{tableData.qpso.cost.toFixed(1)}</td>
+                        <td style={{border: '1px solid #e2e8f0'}}>{tableData.qroute.cost.toFixed(1)}</td>
+                        <td style={{border: '1px solid #e2e8f0', color: '#d97706', fontWeight: 600}}>{tableData.gaqpso.cost.toFixed(1)}</td>
+                      </tr>
+                      <tr>
+                        <td style={{textAlign: 'left', padding: '12px 16px', border: '1px solid #e2e8f0', fontWeight: 600}}>Optimality gap vs. best-known (%)</td>
+                        <td style={{border: '1px solid #e2e8f0'}}>{tableData.pso.gap}</td>
+                        <td style={{border: '1px solid #e2e8f0'}}>{tableData.qpso.gap}</td>
+                        <td style={{border: '1px solid #e2e8f0'}}>{tableData.qroute.gap}</td>
+                        <td style={{border: '1px solid #e2e8f0', color: '#d97706', fontWeight: 600}}>{tableData.gaqpso.gap}</td>
+                      </tr>
+                      <tr>
+                        <td style={{textAlign: 'left', padding: '12px 16px', border: '1px solid #e2e8f0', fontWeight: 600}}>Iterations to 5% threshold</td>
+                        <td style={{border: '1px solid #e2e8f0'}}>{tableData.pso.iters}</td>
+                        <td style={{border: '1px solid #e2e8f0'}}>{tableData.qpso.iters}</td>
+                        <td style={{border: '1px solid #e2e8f0'}}>{tableData.qroute.iters}</td>
+                        <td style={{border: '1px solid #e2e8f0', color: '#d97706', fontWeight: 600}}>{tableData.gaqpso.iters}</td>
+                      </tr>
+                      <tr>
+                        <td style={{textAlign: 'left', padding: '12px 16px', border: '1px solid #e2e8f0', fontWeight: 600}}>Time to convergence (s)</td>
+                        <td style={{border: '1px solid #e2e8f0'}}>{(tableData.pso.timePer * (tableData.pso.iters === 'not reached' ? 50 : parseFloat(tableData.pso.iters.slice(1)))).toFixed(2)}</td>
+                        <td style={{border: '1px solid #e2e8f0'}}>{(tableData.qpso.timePer * (tableData.qpso.iters === 'not reached' ? 50 : parseFloat(tableData.qpso.iters.slice(1)))).toFixed(2)}</td>
+                        <td style={{border: '1px solid #e2e8f0'}}>{(tableData.qroute.timePer * parseFloat(tableData.qroute.iters.slice(1))).toFixed(2)}</td>
+                        <td style={{border: '1px solid #e2e8f0', color: '#d97706', fontWeight: 600}}>{(tableData.gaqpso.timePer * (tableData.gaqpso.iters === 'not reached' ? 50 : parseFloat(tableData.gaqpso.iters.slice(1)))).toFixed(2)}</td>
+                      </tr>
+                      <tr>
+                        <td style={{textAlign: 'left', padding: '12px 16px', border: '1px solid #e2e8f0', fontWeight: 600}}>Success rate (within 5% of best)</td>
+                        <td style={{border: '1px solid #e2e8f0'}}>{tableData.pso.success}</td>
+                        <td style={{border: '1px solid #e2e8f0'}}>{tableData.qpso.success}</td>
+                        <td style={{border: '1px solid #e2e8f0'}}>{tableData.qroute.success}</td>
+                        <td style={{border: '1px solid #e2e8f0', color: '#d97706', fontWeight: 600}}>{tableData.gaqpso.success}</td>
+                      </tr>
+                      <tr>
+                        <td style={{textAlign: 'left', padding: '12px 16px', border: '1px solid #e2e8f0', fontWeight: 600}}>Runtime @ N = 50 (s)</td>
+                        <td style={{border: '1px solid #e2e8f0'}}>{tableData.pso.runtime}</td>
+                        <td style={{border: '1px solid #e2e8f0'}}>{tableData.qpso.runtime}</td>
+                        <td style={{border: '1px solid #e2e8f0'}}>{tableData.qroute.runtime}</td>
+                        <td style={{border: '1px solid #e2e8f0', color: '#d97706', fontWeight: 600}}>{tableData.gaqpso.runtime}</td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
               </div>
 
               {/* Diversity Plot */}
