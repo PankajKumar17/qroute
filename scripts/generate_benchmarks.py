@@ -10,6 +10,7 @@ sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..', 's
 from qroute.graph.network import build_synthetic_graph
 from qroute.algorithms.standard_pso import standard_pso
 from qroute.algorithms.canonical_qpso import canonical_qpso
+from qroute.algorithms.gaqpso import gaqpso
 from qroute.algorithms.adaptive_pso import adaptive_pso
 from qroute.consensus.redundant_consensus import extract_edges
 
@@ -28,22 +29,36 @@ def run_benchmarks():
     
     # 2. Convergence Comparison
     print("Running Convergence Benchmark (Standard PSO)...")
-    _, _, std_hist = standard_pso(G, demands, vehicle_capacity, swarm_size, iterations)
+    _, _, std_hist, std_div = standard_pso(G, demands, vehicle_capacity, swarm_size, iterations)
     
     print("Running Convergence Benchmark (Canonical QPSO)...")
-    _, _, qpso_hist = canonical_qpso(G, demands, vehicle_capacity, swarm_size, iterations)
+    _, _, qpso_hist, qpso_div = canonical_qpso(G, demands, vehicle_capacity, swarm_size, iterations)
+    
+    print("Running Convergence Benchmark (GAQPSO)...")
+    _, _, gaqpso_hist, gaqpso_div = gaqpso(G, demands, vehicle_capacity, swarm_size, iterations)
     
     print("Running Convergence Benchmark (Q-Route / Adaptive PSO)...")
-    _, _, qroute_hist, _ = adaptive_pso(G, demands, vehicle_capacity, swarm_size, iterations, use_qw=True)
+    _, _, qroute_hist, _, qroute_div = adaptive_pso(G, demands, vehicle_capacity, swarm_size, iterations, use_qw=True)
     
     # Format for Recharts
     convergence_data = []
+    diversity_data = []
+    
     for i in range(iterations):
         convergence_data.append({
             "iteration": i + 1,
             "Standard PSO": std_hist[i],
             "Canonical QPSO": qpso_hist[i],
+            "GAQPSO": gaqpso_hist[i],
             "Q-Route": qroute_hist[i]
+        })
+        
+        diversity_data.append({
+            "iteration": i + 1,
+            "Standard PSO": max(std_div[i], 1e-20),
+            "Canonical QPSO": max(qpso_div[i], 1e-20),
+            "GAQPSO": max(gaqpso_div[i], 1e-20),
+            "Q-Route": max(qroute_div[i], 1e-20)
         })
         
     # 3. Redundancy / Consensus Benchmark
@@ -55,7 +70,7 @@ def run_benchmarks():
         # Run K independent swarms manually to measure agreement
         edge_counts = {}
         for i in range(k):
-            _, best_routes, _, _ = adaptive_pso(
+            _, best_routes, _, _, _ = adaptive_pso(
                 G, demands, vehicle_capacity,
                 swarm_size=15, iterations=30
             )
@@ -85,6 +100,7 @@ def run_benchmarks():
     with open(out_file, 'w') as f:
         json.dump({
             "convergence": convergence_data,
+            "diversity": diversity_data,
             "redundancy": redundancy_data
         }, f, indent=2)
         

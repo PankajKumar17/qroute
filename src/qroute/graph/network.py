@@ -1,9 +1,9 @@
 import networkx as nx
-import osmnx as ox
 import numpy as np
 import os
 
 def load_road_network(place_name: str, network_type: str = "drive") -> nx.MultiDiGraph:
+    import osmnx as ox
     """
     Loads a road network for a given place using OSMnx, and adds travel times.
     Caches the graph locally to avoid API rate limits and connection issues in production.

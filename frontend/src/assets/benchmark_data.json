@@ -4,301 +4,703 @@
       "iteration": 1,
       "Standard PSO": 31602.45881922628,
       "Canonical QPSO": 34832.303699428536,
-      "Q-Route": 35074.201845858974
+      "GAQPSO": 34661.328067235285,
+      "Q-Route": 32493.897742731544
     },
     {
       "iteration": 2,
       "Standard PSO": 30869.812607826458,
       "Canonical QPSO": 32432.580792249093,
-      "Q-Route": 31961.880208830495
+      "GAQPSO": 34661.328067235285,
+      "Q-Route": 28855.134993596566
     },
     {
       "iteration": 3,
       "Standard PSO": 30869.812607826458,
       "Canonical QPSO": 31956.342623668017,
-      "Q-Route": 31961.880208830495
+      "GAQPSO": 34661.328067235285,
+      "Q-Route": 25569.500803883624
     },
     {
       "iteration": 4,
       "Standard PSO": 30869.812607826458,
       "Canonical QPSO": 31956.342623668017,
-      "Q-Route": 28796.052822026413
+      "GAQPSO": 33591.15611735139,
+      "Q-Route": 25569.500803883624
     },
     {
       "iteration": 5,
       "Standard PSO": 30869.812607826458,
       "Canonical QPSO": 30667.061152090468,
-      "Q-Route": 28796.052822026413
+      "GAQPSO": 32509.24617603477,
+      "Q-Route": 25569.500803883624
     },
     {
       "iteration": 6,
       "Standard PSO": 30869.812607826458,
       "Canonical QPSO": 30667.061152090468,
-      "Q-Route": 27980.533556353446
+      "GAQPSO": 31379.30759338748,
+      "Q-Route": 25569.500803883624
     },
     {
       "iteration": 7,
       "Standard PSO": 30869.812607826458,
       "Canonical QPSO": 29472.0080235962,
-      "Q-Route": 27980.533556353446
+      "GAQPSO": 29212.33860648131,
+      "Q-Route": 25569.500803883624
     },
     {
       "iteration": 8,
       "Standard PSO": 30869.812607826458,
       "Canonical QPSO": 28347.719876091858,
-      "Q-Route": 27980.533556353446
+      "GAQPSO": 29212.33860648131,
+      "Q-Route": 25569.500803883624
     },
     {
       "iteration": 9,
       "Standard PSO": 30104.526883095252,
       "Canonical QPSO": 28347.719876091858,
-      "Q-Route": 27980.533556353446
+      "GAQPSO": 29212.33860648131,
+      "Q-Route": 25541.43765953597
     },
     {
       "iteration": 10,
       "Standard PSO": 30104.526883095252,
       "Canonical QPSO": 28347.719876091858,
-      "Q-Route": 27134.798895292515
+      "GAQPSO": 27985.378734170423,
+      "Q-Route": 25541.43765953597
     },
     {
       "iteration": 11,
       "Standard PSO": 30104.526883095252,
       "Canonical QPSO": 28347.719876091858,
-      "Q-Route": 27134.798895292515
+      "GAQPSO": 27985.378734170423,
+      "Q-Route": 25191.668881407095
     },
     {
       "iteration": 12,
       "Standard PSO": 30104.526883095252,
       "Canonical QPSO": 27321.04870539298,
-      "Q-Route": 27134.798895292515
+      "GAQPSO": 27985.378734170423,
+      "Q-Route": 24601.66153449689
     },
     {
       "iteration": 13,
       "Standard PSO": 30104.526883095252,
       "Canonical QPSO": 27321.04870539298,
-      "Q-Route": 27134.798895292515
+      "GAQPSO": 27985.378734170423,
+      "Q-Route": 24601.66153449689
     },
     {
       "iteration": 14,
       "Standard PSO": 30104.526883095252,
       "Canonical QPSO": 27321.04870539298,
-      "Q-Route": 27134.798895292515
+      "GAQPSO": 26761.2620907238,
+      "Q-Route": 24468.630250952134
     },
     {
       "iteration": 15,
       "Standard PSO": 27230.85450460531,
       "Canonical QPSO": 26596.730790249432,
-      "Q-Route": 27134.798895292515
+      "GAQPSO": 26761.2620907238,
+      "Q-Route": 24468.630250952134
     },
     {
       "iteration": 16,
       "Standard PSO": 27230.85450460531,
       "Canonical QPSO": 26596.730790249432,
-      "Q-Route": 27134.798895292515
+      "GAQPSO": 26761.2620907238,
+      "Q-Route": 24192.870591955558
     },
     {
       "iteration": 17,
       "Standard PSO": 27230.85450460531,
       "Canonical QPSO": 26596.730790249432,
-      "Q-Route": 27134.798895292515
+      "GAQPSO": 26761.2620907238,
+      "Q-Route": 24159.63371289032
     },
     {
       "iteration": 18,
       "Standard PSO": 26796.644046601246,
       "Canonical QPSO": 26596.730790249432,
-      "Q-Route": 27134.798895292515
+      "GAQPSO": 26761.2620907238,
+      "Q-Route": 24159.63371289032
     },
     {
       "iteration": 19,
       "Standard PSO": 26796.644046601246,
       "Canonical QPSO": 26596.730790249432,
-      "Q-Route": 27134.798895292515
+      "GAQPSO": 26761.2620907238,
+      "Q-Route": 24159.63371289032
     },
     {
       "iteration": 20,
       "Standard PSO": 26796.644046601246,
       "Canonical QPSO": 26596.730790249432,
-      "Q-Route": 27134.798895292515
+      "GAQPSO": 26761.2620907238,
+      "Q-Route": 24159.63371289032
     },
     {
       "iteration": 21,
       "Standard PSO": 26796.644046601246,
       "Canonical QPSO": 26596.730790249432,
-      "Q-Route": 27134.798895292515
+      "GAQPSO": 26761.2620907238,
+      "Q-Route": 24159.63371289032
     },
     {
       "iteration": 22,
       "Standard PSO": 26796.644046601246,
       "Canonical QPSO": 25941.153758248496,
-      "Q-Route": 27134.798895292515
+      "GAQPSO": 26761.2620907238,
+      "Q-Route": 24159.63371289032
     },
     {
       "iteration": 23,
       "Standard PSO": 26796.644046601246,
       "Canonical QPSO": 25922.197950857226,
-      "Q-Route": 27134.798895292515
+      "GAQPSO": 26761.2620907238,
+      "Q-Route": 24159.63371289032
     },
     {
       "iteration": 24,
       "Standard PSO": 26796.644046601246,
       "Canonical QPSO": 25922.197950857226,
-      "Q-Route": 27134.798895292515
+      "GAQPSO": 26761.2620907238,
+      "Q-Route": 24159.63371289032
     },
     {
       "iteration": 25,
       "Standard PSO": 26796.644046601246,
       "Canonical QPSO": 25637.36619088426,
-      "Q-Route": 27134.798895292515
+      "GAQPSO": 26761.2620907238,
+      "Q-Route": 24159.63371289032
     },
     {
       "iteration": 26,
       "Standard PSO": 26796.644046601246,
       "Canonical QPSO": 25637.36619088426,
-      "Q-Route": 27134.798895292515
+      "GAQPSO": 26761.2620907238,
+      "Q-Route": 24159.63371289032
     },
     {
       "iteration": 27,
       "Standard PSO": 26796.644046601246,
       "Canonical QPSO": 25637.36619088426,
-      "Q-Route": 27134.798895292515
+      "GAQPSO": 26761.2620907238,
+      "Q-Route": 24159.63371289032
     },
     {
       "iteration": 28,
       "Standard PSO": 26796.644046601246,
       "Canonical QPSO": 25637.36619088426,
-      "Q-Route": 27134.798895292515
+      "GAQPSO": 26761.2620907238,
+      "Q-Route": 24159.63371289032
     },
     {
       "iteration": 29,
       "Standard PSO": 26796.644046601246,
       "Canonical QPSO": 25637.36619088426,
-      "Q-Route": 27134.798895292515
+      "GAQPSO": 26761.2620907238,
+      "Q-Route": 24159.63371289032
     },
     {
       "iteration": 30,
       "Standard PSO": 26796.644046601246,
       "Canonical QPSO": 25637.36619088426,
-      "Q-Route": 27134.798895292515
+      "GAQPSO": 26761.2620907238,
+      "Q-Route": 24159.63371289032
     },
     {
       "iteration": 31,
       "Standard PSO": 26796.644046601246,
       "Canonical QPSO": 24618.51583759086,
-      "Q-Route": 27134.798895292515
+      "GAQPSO": 26761.2620907238,
+      "Q-Route": 24159.63371289032
     },
     {
       "iteration": 32,
       "Standard PSO": 26796.644046601246,
       "Canonical QPSO": 24618.51583759086,
-      "Q-Route": 27134.798895292515
+      "GAQPSO": 26761.2620907238,
+      "Q-Route": 24159.63371289032
     },
     {
       "iteration": 33,
       "Standard PSO": 26796.644046601246,
       "Canonical QPSO": 24618.51583759086,
-      "Q-Route": 27134.798895292515
+      "GAQPSO": 26761.2620907238,
+      "Q-Route": 24159.63371289032
     },
     {
       "iteration": 34,
       "Standard PSO": 26793.451586777726,
       "Canonical QPSO": 24618.51583759086,
-      "Q-Route": 27134.798895292515
+      "GAQPSO": 26761.2620907238,
+      "Q-Route": 24159.63371289032
     },
     {
       "iteration": 35,
       "Standard PSO": 26793.451586777726,
       "Canonical QPSO": 24618.51583759086,
-      "Q-Route": 27134.798895292515
+      "GAQPSO": 26761.2620907238,
+      "Q-Route": 24159.63371289032
     },
     {
       "iteration": 36,
       "Standard PSO": 26793.451586777726,
       "Canonical QPSO": 24618.51583759086,
-      "Q-Route": 27134.798895292515
+      "GAQPSO": 25721.775189733075,
+      "Q-Route": 24159.63371289032
     },
     {
       "iteration": 37,
       "Standard PSO": 26793.451586777726,
       "Canonical QPSO": 24618.51583759086,
-      "Q-Route": 27134.798895292515
+      "GAQPSO": 25721.775189733075,
+      "Q-Route": 24159.63371289032
     },
     {
       "iteration": 38,
       "Standard PSO": 26793.451586777726,
       "Canonical QPSO": 24618.51583759086,
-      "Q-Route": 27134.798895292515
+      "GAQPSO": 25454.38579638228,
+      "Q-Route": 24159.63371289032
     },
     {
       "iteration": 39,
       "Standard PSO": 26793.451586777726,
       "Canonical QPSO": 24618.51583759086,
-      "Q-Route": 27134.798895292515
+      "GAQPSO": 25454.38579638228,
+      "Q-Route": 24159.63371289032
     },
     {
       "iteration": 40,
       "Standard PSO": 26793.451586777726,
       "Canonical QPSO": 24618.51583759086,
-      "Q-Route": 27134.798895292515
+      "GAQPSO": 25454.38579638228,
+      "Q-Route": 24159.63371289032
     },
     {
       "iteration": 41,
       "Standard PSO": 26793.451586777726,
       "Canonical QPSO": 24618.51583759086,
-      "Q-Route": 27134.798895292515
+      "GAQPSO": 25454.38579638228,
+      "Q-Route": 24159.63371289032
     },
     {
       "iteration": 42,
       "Standard PSO": 26793.451586777726,
       "Canonical QPSO": 24618.51583759086,
-      "Q-Route": 27134.798895292515
+      "GAQPSO": 25454.38579638228,
+      "Q-Route": 24159.63371289032
     },
     {
       "iteration": 43,
       "Standard PSO": 26793.451586777726,
       "Canonical QPSO": 24618.51583759086,
-      "Q-Route": 27134.798895292515
+      "GAQPSO": 25454.38579638228,
+      "Q-Route": 24159.63371289032
     },
     {
       "iteration": 44,
       "Standard PSO": 26793.451586777726,
       "Canonical QPSO": 24618.51583759086,
-      "Q-Route": 27134.798895292515
+      "GAQPSO": 25454.38579638228,
+      "Q-Route": 24159.63371289032
     },
     {
       "iteration": 45,
       "Standard PSO": 26793.451586777726,
       "Canonical QPSO": 24618.51583759086,
-      "Q-Route": 27016.584536567345
+      "GAQPSO": 25018.970768142644,
+      "Q-Route": 24159.63371289032
     },
     {
       "iteration": 46,
       "Standard PSO": 26793.451586777726,
       "Canonical QPSO": 24618.51583759086,
-      "Q-Route": 27016.584536567345
+      "GAQPSO": 24496.430312244167,
+      "Q-Route": 24159.63371289032
     },
     {
       "iteration": 47,
       "Standard PSO": 26793.451586777726,
       "Canonical QPSO": 24618.51583759086,
-      "Q-Route": 27016.584536567345
+      "GAQPSO": 24496.430312244167,
+      "Q-Route": 24159.63371289032
     },
     {
       "iteration": 48,
       "Standard PSO": 26793.451586777726,
       "Canonical QPSO": 24618.51583759086,
-      "Q-Route": 27016.584536567345
+      "GAQPSO": 23771.96344681166,
+      "Q-Route": 24159.63371289032
     },
     {
       "iteration": 49,
       "Standard PSO": 26793.451586777726,
       "Canonical QPSO": 24618.51583759086,
-      "Q-Route": 27016.584536567345
+      "GAQPSO": 23771.96344681166,
+      "Q-Route": 24159.63371289032
     },
     {
       "iteration": 50,
       "Standard PSO": 26793.451586777726,
       "Canonical QPSO": 24618.51583759086,
-      "Q-Route": 27016.584536567345
+      "GAQPSO": 23771.96344681166,
+      "Q-Route": 24159.63371289032
+    }
+  ],
+  "diversity": [
+    {
+      "iteration": 1,
+      "Standard PSO": 0.7214737544756005,
+      "Canonical QPSO": 0.2817624805013603,
+      "GAQPSO": 0.2853954821457804,
+      "Q-Route": 0.6364342991661955
+    },
+    {
+      "iteration": 2,
+      "Standard PSO": 0.6316661606261593,
+      "Canonical QPSO": 0.2859684637354912,
+      "GAQPSO": 0.30120668412378365,
+      "Q-Route": 0.5219563074601916
+    },
+    {
+      "iteration": 3,
+      "Standard PSO": 0.8383327980345578,
+      "Canonical QPSO": 0.27321546867306307,
+      "GAQPSO": 0.3041141412947223,
+      "Q-Route": 0.5850860614177849
+    },
+    {
+      "iteration": 4,
+      "Standard PSO": 0.8202231499882187,
+      "Canonical QPSO": 0.25544483622509967,
+      "GAQPSO": 0.28187542982172525,
+      "Q-Route": 0.49127410257545934
+    },
+    {
+      "iteration": 5,
+      "Standard PSO": 0.6813731284493073,
+      "Canonical QPSO": 0.2620648927983659,
+      "GAQPSO": 0.30191324859314683,
+      "Q-Route": 0.4509400496084214
+    },
+    {
+      "iteration": 6,
+      "Standard PSO": 0.6293257340149648,
+      "Canonical QPSO": 0.24527273566992233,
+      "GAQPSO": 0.2951695586163353,
+      "Q-Route": 0.38320248689163783
+    },
+    {
+      "iteration": 7,
+      "Standard PSO": 0.5669907861218798,
+      "Canonical QPSO": 0.2539878096880636,
+      "GAQPSO": 0.30851158510926646,
+      "Q-Route": 0.338036374839923
+    },
+    {
+      "iteration": 8,
+      "Standard PSO": 0.6179508025649668,
+      "Canonical QPSO": 0.2424254417928279,
+      "GAQPSO": 0.2990414429343914,
+      "Q-Route": 0.3157047759194866
+    },
+    {
+      "iteration": 9,
+      "Standard PSO": 0.49132853810533694,
+      "Canonical QPSO": 0.227259674969693,
+      "GAQPSO": 0.28391337636042047,
+      "Q-Route": 0.31219422872467206
+    },
+    {
+      "iteration": 10,
+      "Standard PSO": 0.5461236863289398,
+      "Canonical QPSO": 0.22697253664590217,
+      "GAQPSO": 0.3253182948009395,
+      "Q-Route": 0.282363219730164
+    },
+    {
+      "iteration": 11,
+      "Standard PSO": 0.5946207064703934,
+      "Canonical QPSO": 0.24141905263505553,
+      "GAQPSO": 0.3036596491129399,
+      "Q-Route": 0.3120321291707767
+    },
+    {
+      "iteration": 12,
+      "Standard PSO": 0.5527993411638158,
+      "Canonical QPSO": 0.23728318693036182,
+      "GAQPSO": 0.2979418890492336,
+      "Q-Route": 0.2788083750667484
+    },
+    {
+      "iteration": 13,
+      "Standard PSO": 0.5610808084283946,
+      "Canonical QPSO": 0.21780581771934993,
+      "GAQPSO": 0.2934265643819698,
+      "Q-Route": 0.22969334218066897
+    },
+    {
+      "iteration": 14,
+      "Standard PSO": 0.5249139786646271,
+      "Canonical QPSO": 0.20637227129397276,
+      "GAQPSO": 0.26396201086901605,
+      "Q-Route": 0.21998457282110281
+    },
+    {
+      "iteration": 15,
+      "Standard PSO": 0.5515009030737728,
+      "Canonical QPSO": 0.19817708715965654,
+      "GAQPSO": 0.26361055923314924,
+      "Q-Route": 0.23273499550430352
+    },
+    {
+      "iteration": 16,
+      "Standard PSO": 0.5303138140524497,
+      "Canonical QPSO": 0.20074186004406172,
+      "GAQPSO": 0.2875675157959816,
+      "Q-Route": 0.2892124883276427
+    },
+    {
+      "iteration": 17,
+      "Standard PSO": 0.5720261785143249,
+      "Canonical QPSO": 0.2097478358119871,
+      "GAQPSO": 0.2864174207576989,
+      "Q-Route": 0.24874987993458375
+    },
+    {
+      "iteration": 18,
+      "Standard PSO": 0.5460987453871385,
+      "Canonical QPSO": 0.21279139120614193,
+      "GAQPSO": 0.30306426065373365,
+      "Q-Route": 0.2866883209203953
+    },
+    {
+      "iteration": 19,
+      "Standard PSO": 0.5082953540088223,
+      "Canonical QPSO": 0.1925431344397364,
+      "GAQPSO": 0.27430459490802284,
+      "Q-Route": 0.25003111442785875
+    },
+    {
+      "iteration": 20,
+      "Standard PSO": 0.46756219856120956,
+      "Canonical QPSO": 0.20956060820652894,
+      "GAQPSO": 0.24499467001227984,
+      "Q-Route": 0.2097780769500682
+    },
+    {
+      "iteration": 21,
+      "Standard PSO": 0.4480227698764767,
+      "Canonical QPSO": 0.20994248058065418,
+      "GAQPSO": 0.2784662983704832,
+      "Q-Route": 0.21070978281351377
+    },
+    {
+      "iteration": 22,
+      "Standard PSO": 0.4304268660067911,
+      "Canonical QPSO": 0.20526421531310685,
+      "GAQPSO": 0.2515393428543511,
+      "Q-Route": 0.2352708298485176
+    },
+    {
+      "iteration": 23,
+      "Standard PSO": 0.4282996476071631,
+      "Canonical QPSO": 0.18951125289751702,
+      "GAQPSO": 0.25842352342104025,
+      "Q-Route": 0.1836414002852001
+    },
+    {
+      "iteration": 24,
+      "Standard PSO": 0.43387998888686197,
+      "Canonical QPSO": 0.1778981922349624,
+      "GAQPSO": 0.22532717023844687,
+      "Q-Route": 0.42328290196802926
+    },
+    {
+      "iteration": 25,
+      "Standard PSO": 0.3791263310987715,
+      "Canonical QPSO": 0.15359300202908316,
+      "GAQPSO": 0.25041362896432384,
+      "Q-Route": 0.420336436749931
+    },
+    {
+      "iteration": 26,
+      "Standard PSO": 0.3966973750758796,
+      "Canonical QPSO": 0.12935182885307592,
+      "GAQPSO": 0.24387100818893168,
+      "Q-Route": 0.30131183717872867
+    },
+    {
+      "iteration": 27,
+      "Standard PSO": 0.377615331605959,
+      "Canonical QPSO": 0.15451012890993351,
+      "GAQPSO": 0.21518981951230753,
+      "Q-Route": 0.27961029810112564
+    },
+    {
+      "iteration": 28,
+      "Standard PSO": 0.3098342638003381,
+      "Canonical QPSO": 0.15435231217727616,
+      "GAQPSO": 0.2413724561296726,
+      "Q-Route": 0.23623816884291965
+    },
+    {
+      "iteration": 29,
+      "Standard PSO": 0.31197287195183165,
+      "Canonical QPSO": 0.1521653093292555,
+      "GAQPSO": 0.2375511478584713,
+      "Q-Route": 0.25258728169113004
+    },
+    {
+      "iteration": 30,
+      "Standard PSO": 0.22964739795045191,
+      "Canonical QPSO": 0.13619834650672524,
+      "GAQPSO": 0.26097142559383585,
+      "Q-Route": 0.2584182796072663
+    },
+    {
+      "iteration": 31,
+      "Standard PSO": 0.21006380785593218,
+      "Canonical QPSO": 0.13295574302531651,
+      "GAQPSO": 0.23939958852988588,
+      "Q-Route": 0.208174350016434
+    },
+    {
+      "iteration": 32,
+      "Standard PSO": 0.230716449435891,
+      "Canonical QPSO": 0.14011249608190643,
+      "GAQPSO": 0.22931417124770997,
+      "Q-Route": 0.18064491459197637
+    },
+    {
+      "iteration": 33,
+      "Standard PSO": 0.23292093947424636,
+      "Canonical QPSO": 0.1368867892193683,
+      "GAQPSO": 0.2175447855379094,
+      "Q-Route": 0.4800557790554113
+    },
+    {
+      "iteration": 34,
+      "Standard PSO": 0.22114475668645656,
+      "Canonical QPSO": 0.13132402645969102,
+      "GAQPSO": 0.22507635115274818,
+      "Q-Route": 0.4590289672018333
+    },
+    {
+      "iteration": 35,
+      "Standard PSO": 0.24575842257021424,
+      "Canonical QPSO": 0.12297021872844824,
+      "GAQPSO": 0.2199977327320126,
+      "Q-Route": 0.31492448332983425
+    },
+    {
+      "iteration": 36,
+      "Standard PSO": 0.22411978581159903,
+      "Canonical QPSO": 0.12364985337595583,
+      "GAQPSO": 0.2113860453375102,
+      "Q-Route": 0.22726359739932378
+    },
+    {
+      "iteration": 37,
+      "Standard PSO": 0.22492133095047198,
+      "Canonical QPSO": 0.136966992090334,
+      "GAQPSO": 0.21889365592750065,
+      "Q-Route": 0.2608085312209444
+    },
+    {
+      "iteration": 38,
+      "Standard PSO": 0.2303997884369089,
+      "Canonical QPSO": 0.13736591923275498,
+      "GAQPSO": 0.24344602015170896,
+      "Q-Route": 0.2687762716681964
+    },
+    {
+      "iteration": 39,
+      "Standard PSO": 0.2419303699898414,
+      "Canonical QPSO": 0.1276955217942493,
+      "GAQPSO": 0.20623151960883085,
+      "Q-Route": 0.2366529264499123
+    },
+    {
+      "iteration": 40,
+      "Standard PSO": 0.2087654740897409,
+      "Canonical QPSO": 0.13310891643624262,
+      "GAQPSO": 0.21393058069149112,
+      "Q-Route": 0.1818371856323951
+    },
+    {
+      "iteration": 41,
+      "Standard PSO": 0.1846279315103762,
+      "Canonical QPSO": 0.11369249200691524,
+      "GAQPSO": 0.21405565901429893,
+      "Q-Route": 0.4872422187466207
+    },
+    {
+      "iteration": 42,
+      "Standard PSO": 0.18338408505062329,
+      "Canonical QPSO": 0.11742654227116353,
+      "GAQPSO": 0.21001745003578592,
+      "Q-Route": 0.47446032661926213
+    },
+    {
+      "iteration": 43,
+      "Standard PSO": 0.181570505885129,
+      "Canonical QPSO": 0.10031323191357215,
+      "GAQPSO": 0.2110052696495676,
+      "Q-Route": 0.3317504938427548
+    },
+    {
+      "iteration": 44,
+      "Standard PSO": 0.1637218468462688,
+      "Canonical QPSO": 0.10754094660402216,
+      "GAQPSO": 0.19474486780100597,
+      "Q-Route": 0.2920352670663866
+    },
+    {
+      "iteration": 45,
+      "Standard PSO": 0.1947733543196341,
+      "Canonical QPSO": 0.09649070166121432,
+      "GAQPSO": 0.19873974727502494,
+      "Q-Route": 0.25914335653930437
+    },
+    {
+      "iteration": 46,
+      "Standard PSO": 0.19280465278492773,
+      "Canonical QPSO": 0.10166981849979863,
+      "GAQPSO": 0.21361912627957313,
+      "Q-Route": 0.28090505874552907
+    },
+    {
+      "iteration": 47,
+      "Standard PSO": 0.1667987016875908,
+      "Canonical QPSO": 0.10222798525402008,
+      "GAQPSO": 0.2156092812158716,
+      "Q-Route": 0.29504222172773203
+    },
+    {
+      "iteration": 48,
+      "Standard PSO": 0.17405632049393277,
+      "Canonical QPSO": 0.10511665394245222,
+      "GAQPSO": 0.21439128748793335,
+      "Q-Route": 0.30294208121460287
+    },
+    {
+      "iteration": 49,
+      "Standard PSO": 0.1504019862015266,
+      "Canonical QPSO": 0.09363050043936302,
+      "GAQPSO": 0.2154819854995073,
+      "Q-Route": 0.2393209994280831
+    },
+    {
+      "iteration": 50,
+      "Standard PSO": 0.16984409886845836,
+      "Canonical QPSO": 0.09465210837344516,
+      "GAQPSO": 0.2003015539312657,
+      "Q-Route": 0.22050911297709588
     }
   ],
   "redundancy": [
@@ -309,32 +711,32 @@
     },
     {
       "subswarms": 3,
-      "redundancy": 2.0,
+      "redundancy": 2.22,
       "threshold": 2
     },
     {
       "subswarms": 4,
-      "redundancy": 2.2,
+      "redundancy": 2.27,
       "threshold": 2
     },
     {
       "subswarms": 5,
-      "redundancy": 2.16,
+      "redundancy": 2.39,
       "threshold": 3
     },
     {
       "subswarms": 6,
-      "redundancy": 2.56,
+      "redundancy": 2.33,
       "threshold": 3
     },
     {
       "subswarms": 7,
-      "redundancy": 2.85,
+      "redundancy": 2.65,
       "threshold": 4
     },
     {
       "subswarms": 8,
-      "redundancy": 2.6,
+      "redundancy": 2.69,
       "threshold": 4
     }
   ]

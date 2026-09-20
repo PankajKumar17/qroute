@@ -1,6 +1,7 @@
 """
-Canonical QPSO baseline using the Delta-Potential Well physics model (Sun et al. 2004).
-This is purely a separate baseline algorithm, not used in the main Q-Route engine.
+Gaussian distributed local attractor QPSO (GAQPSO).
+Based on the Delta-Potential Well physics model but uses a Gaussian distribution
+for the local attractor to improve diversity and prevent premature convergence.
 """
 import numpy as np
 from typing import List, Tuple
@@ -15,13 +16,6 @@ class QPSOParticle:
         self.pbest_fitness = float('inf')
         self.current_fitness = float('inf')
         self.current_routes = []
-
-def calculate_diversity(positions: np.ndarray) -> float:
-    M, D = positions.shape
-    L = np.sqrt(D)
-    mean_pos = np.mean(positions, axis=0)
-    distances = np.linalg.norm(positions - mean_pos, axis=1)
-    return float(np.sum(distances) / (L * M))
 
 def evaluate_qpso_particle(particle: QPSOParticle, graph, demands: List[float], vehicle_capacity: float, depart_time: float) -> float:
     tour = decode_to_tour(particle.position)
@@ -42,8 +36,21 @@ def evaluate_qpso_particle(particle: QPSOParticle, graph, demands: List[float], 
         
     return total_cost
 
-def canonical_qpso(graph, demands: List[float], vehicle_capacity: float,
-                   swarm_size: int = 30, iterations: int = 50, depart_time: float = 0.0) -> Tuple[float, List[List[int]], List[float]]:
+def calculate_diversity(positions: np.ndarray) -> float:
+    """
+    Calculate diversity metric:
+    diversity = (1 / (L * M)) * sum_{i=1}^M || X_i - X_{mean} ||_2
+    where L is the diagonal of the search space [0, 1]^D, L = sqrt(D)
+    """
+    M, D = positions.shape
+    L = np.sqrt(D)
+    mean_pos = np.mean(positions, axis=0)
+    # Calculate Euclidean distance for each particle to the mean position
+    distances = np.linalg.norm(positions - mean_pos, axis=1)
+    return float(np.sum(distances) / (L * M))
+
+def gaqpso(graph, demands: List[float], vehicle_capacity: float,
+           swarm_size: int = 30, iterations: int = 50, depart_time: float = 0.0) -> Tuple[float, List[List[int]], List[float], List[float]]:
     n_customers = len(demands)
     swarm = [QPSOParticle(n_customers) for _ in range(swarm_size)]
     
@@ -80,12 +87,24 @@ def canonical_qpso(graph, demands: List[float], vehicle_capacity: float,
         # Update
         for particle in swarm:
             phi = np.random.uniform(0, 1, size=n_customers)
+            # Original local attractor
             p = phi * particle.pbest_position + (1 - phi) * gbest_position
+            
+            # Standard deviation for Gaussian distribution
+            sigma = np.abs(mbest - particle.pbest_position)
+            
+            # New local attractor np using Gaussian distribution
+            # Note: np.random.normal takes loc (mean) and scale (std dev)
+            np_attractor = np.random.normal(loc=p, scale=sigma)
+            
             u = np.random.uniform(0, 1, size=n_customers)
-            L = alpha * np.abs(mbest - particle.position)
+            # Avoid log(0)
+            u = np.maximum(u, 1e-10)
+            
+            L_val = alpha * np.abs(mbest - particle.position)
             
             sign = np.where(np.random.rand(n_customers) > 0.5, 1, -1)
-            particle.position = p + sign * L * np.log(1.0 / u)
+            particle.position = np_attractor + sign * L_val * np.log(1.0 / u)
             particle.position = np.clip(particle.position, 0.0, 1.0)
             
     return gbest_fitness, gbest_routes, history, diversity_history
