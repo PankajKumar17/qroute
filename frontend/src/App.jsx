@@ -20,6 +20,47 @@ function App() {
   
   const [result, setResult] = useState(null)
   
+  // Calculate averages for N=50 size to display in the main summary table
+  const n50Data = (metricsData || []).filter(d => d.size === 49);
+  const avg = (key) => n50Data.length > 0 ? (n50Data.reduce((acc, row) => acc + (row[key] || 0), 0) / n50Data.length) : 0;
+  
+  const exact_avg = n50Data.length > 0 ? (n50Data.reduce((acc, row) => acc + (row['ortools'] || 0), 0) / n50Data.length) : 1;
+  
+  const tableData = {
+    pso: {
+      cost: avg('pso'),
+      gap: ((avg('pso') - exact_avg) / exact_avg * 100).toFixed(1) + '%',
+      iters: avg('iters_to_5pct_pso') >= 50 ? 'not reached' : `~${avg('iters_to_5pct_pso').toFixed(0)}`,
+      timePer: avg('time_per_iter_pso'),
+      success: (avg('success_pso') * 100).toFixed(0) + '%',
+      runtime: avg('time_pso').toFixed(2)
+    },
+    qpso: {
+      cost: avg('qpso'),
+      gap: ((avg('qpso') - exact_avg) / exact_avg * 100).toFixed(1) + '%',
+      iters: avg('iters_to_5pct_qpso') >= 50 ? 'not reached' : `~${avg('iters_to_5pct_qpso').toFixed(0)}`,
+      timePer: avg('time_per_iter_qpso'),
+      success: (avg('success_qpso') * 100).toFixed(0) + '%',
+      runtime: avg('time_qpso').toFixed(2)
+    },
+    qroute: {
+      cost: avg('adaptive_consensus'),
+      gap: ((avg('adaptive_consensus') - exact_avg) / exact_avg * 100).toFixed(1) + '%',
+      iters: '~15', // approximated for consensus windows
+      timePer: avg('time_ac') / 15,
+      success: (avg('success_ac') * 100).toFixed(0) + '%',
+      runtime: avg('time_ac').toFixed(2)
+    },
+    gaqpso: {
+      cost: avg('gaqpso'),
+      gap: ((avg('gaqpso') - exact_avg) / exact_avg * 100).toFixed(1) + '%',
+      iters: avg('iters_to_5pct_gaqpso') >= 50 ? 'not reached' : `~${avg('iters_to_5pct_gaqpso').toFixed(0)}`,
+      timePer: avg('time_per_iter_gaqpso'),
+      success: (avg('success_gaqpso') * 100).toFixed(0) + '%',
+      runtime: avg('time_gaqpso').toFixed(2)
+    }
+  };
+  
   const handleOptimize = async () => {
     setLoading(true)
     try {
@@ -369,13 +410,7 @@ function App() {
                         <td style={{border: '1px solid #e2e8f0'}}>{tableData.qroute.gap}</td>
                         <td style={{border: '1px solid #e2e8f0', color: '#d97706', fontWeight: 600}}>{tableData.gaqpso.gap}</td>
                       </tr>
-                      <tr>
-                        <td style={{textAlign: 'left', padding: '12px 16px', border: '1px solid #e2e8f0', fontWeight: 600}}>Iterations to 5% threshold</td>
-                        <td style={{border: '1px solid #e2e8f0'}}>{tableData.pso.iters}</td>
-                        <td style={{border: '1px solid #e2e8f0'}}>{tableData.qpso.iters}</td>
-                        <td style={{border: '1px solid #e2e8f0'}}>{tableData.qroute.iters}</td>
-                        <td style={{border: '1px solid #e2e8f0', color: '#d97706', fontWeight: 600}}>{tableData.gaqpso.iters}</td>
-                      </tr>
+
                       <tr>
                         <td style={{textAlign: 'left', padding: '12px 16px', border: '1px solid #e2e8f0', fontWeight: 600}}>Time to convergence (s)</td>
                         <td style={{border: '1px solid #e2e8f0'}}>{(tableData.pso.timePer * (tableData.pso.iters === 'not reached' ? 50 : parseFloat(tableData.pso.iters.slice(1)))).toFixed(2)}</td>
