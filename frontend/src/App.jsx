@@ -170,7 +170,7 @@ function App() {
                   </ResponsiveContainer>
                 </div>
               ) : (
-                <div style={{ flex: 1, display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#cbd5e1', fontSize: 13 }}>
+                <div style={{ flex: 1, display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#718096', fontSize: 16 }}>
                   Run optimization to view convergence history
                 </div>
               )}
